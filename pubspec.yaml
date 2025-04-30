@@ -1,0 +1,15 @@
+name: calendar_planner_view
+description: A customizable daily calendar planner view with time-based events and Material 3 design.
+version: 0.1.0
+homepage: https://github.com/danial2026/calendar_planner_view
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  table_calendar: ^3.0.9
+  intl: ^0.18.1
+  flutter_hooks: ^0.20.3

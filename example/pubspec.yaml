@@ -1,0 +1,22 @@
+name: calendar_planner_view_example
+description: Example app for the calendar_planner_view package.
+publish_to: 'none'
+
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  calendar_planner_view:
+    path: ../
+  intl: ^0.18.1
+  flutter_bloc: ^8.1.3
+
+dev_dependencies:
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true 

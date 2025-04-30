@@ -35,6 +35,7 @@ migrate_working_dir/
 pubspec.lock
 
 # Android related
+**/android/
 **/android/**/gradle-wrapper.jar
 **/android/.gradle
 **/android/captures/
@@ -46,6 +47,7 @@ pubspec.lock
 *.jks
 
 # iOS/XCode related
+**/ios/
 **/ios/**/*.mode1v3
 **/ios/**/*.mode2v3
 **/ios/**/*.moved-aside
@@ -98,3 +100,6 @@ example/.flutter-plugins
 example/.flutter-plugins-dependencies
 example/.packages
 example/pubspec.lock 
+
+# Web related
+**/web/
