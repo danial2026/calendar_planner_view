@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.1.3
+
+* Fixed image paths in README.md for pub.dev compatibility
+* Updated documentation with proper GitHub raw content URLs
+* Added descriptive alt text for screenshots
+
+## 0.1.2
+
+* Fixed deprecated `surfaceVariant` usage across the codebase
+* Replaced all instances with `surfaceContainerHighest` for Material 3 compatibility
+* Updated color handling in:
+  * Calendar cells
+  * Toggle buttons
+  * Modal dialogs
+
 ## 0.1.1
 
 * Fixed deprecated `withOpacity` usage across the codebase

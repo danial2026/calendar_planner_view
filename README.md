@@ -4,10 +4,10 @@ A customizable daily calendar planner view with time-based events and Material 3
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-View%20Online-blue)](https://calendar-planner-view.pages.dev/)
 
-| ![](assets/Screenshot_20250501_001812.jpg) | ![](assets/Screenshot_20250501_001817.jpg) |
+| ![Month View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/Screenshot_20250501_001812.jpg) | ![Week View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/Screenshot_20250501_001817.jpg) |
 |------------------------------------|------------------------------------|
 
-| ![](assets/Screenshot_20250501_001804.jpg) | ![](assets/Screenshot_20250501_001827.jpg) |
+| ![Day View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/Screenshot_20250501_001804.jpg) | ![Modal View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/Screenshot_20250501_001827.jpg) |
 |------------------------------------|------------------------------------|
 
 ## Features
