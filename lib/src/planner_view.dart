@@ -411,8 +411,8 @@ class CalendarPlannerView extends HookWidget {
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
                                     colors: [
-                                      theme.colorScheme.primary.withOpacity(0.1),
-                                      theme.colorScheme.primary.withOpacity(0.05),
+                                      theme.colorScheme.primary.withAlpha(26),
+                                      theme.colorScheme.primary.withAlpha(13),
                                     ],
                                   ),
                                   borderRadius: BorderRadius.only(
@@ -471,15 +471,15 @@ class CalendarPlannerView extends HookWidget {
                                         IconButton(
                                           icon: const Icon(Icons.close),
                                           onPressed: () => Navigator.pop(context),
-                                        style: modalCloseButtonStyle ??
-                                            IconButton.styleFrom(
-                                              foregroundColor: theme.colorScheme.onSurfaceVariant,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(8),
+                                          style: modalCloseButtonStyle ??
+                                              IconButton.styleFrom(
+                                                foregroundColor: theme.colorScheme.onSurface.withAlpha(153),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(8),
+                                                ),
+                                                padding: const EdgeInsets.all(8),
                                               ),
-                                              padding: const EdgeInsets.all(8),
-                                            ),
-                                      ),
+                                        ),
                                     ],
                                   ),
                                 ),
@@ -529,7 +529,7 @@ class CalendarPlannerView extends HookWidget {
                     viewType.value = index == 0 ? CalendarViewType.month : CalendarViewType.week;
                   },
                   borderRadius: BorderRadius.circular(8),
-                  color: theme.colorScheme.onSurface.withOpacity(0.6),
+                  color: theme.colorScheme.onSurface.withAlpha(51),
                   selectedColor: theme.colorScheme.onSurface,
                   fillColor: theme.colorScheme.surfaceVariant,
                   children: [
@@ -629,7 +629,7 @@ class CalendarPlannerView extends HookWidget {
                   // Vertical divider
                   Container(
                     width: 1,
-                    color: theme.colorScheme.outline.withOpacity(0.2),
+                    color: theme.colorScheme.outline.withAlpha(51),
                   ),
                   // Event list
                   Expanded(

@@ -273,7 +273,7 @@ class DefaultEventCard extends StatelessWidget {
     final timeFormat = DateFormat.Hm();
 
     return Card(
-      color: event.color.withOpacity(0.1),
+      color: event.color.withAlpha(26),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
         side: BorderSide(
@@ -299,7 +299,7 @@ class DefaultEventCard extends StatelessWidget {
             Text(
               '${timeFormat.format(event.startTime)} - ${timeFormat.format(event.endTime)}',
               style: theme.textTheme.bodySmall?.copyWith(
-                color: event.color.withOpacity(0.8),
+                color: event.color.withAlpha(204),
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -309,7 +309,7 @@ class DefaultEventCard extends StatelessWidget {
               Text(
                 event.description!,
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: event.color.withOpacity(0.8),
+                  color: event.color.withAlpha(204),
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,

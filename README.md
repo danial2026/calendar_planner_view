@@ -1,17 +1,23 @@
 # Calendar Planner View
 
-A customizable daily calendar planner view with time-based events and Material 3 design for Flutter.
+A customizable daily calendar planner view with time-based events and Material 3 design.
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-View%20Online-blue)](https://calendar-planner-view.pages.dev/)
 
 ## Features
 
-- Time-based daily calendar
-- Scrollable events view
-- Customizable event items
-- Material 3 design support
-- Light and dark mode support
-- Customizable date picker (top or modal)
-- Sticky time labels
-- Customizable event card builders
+* Time-based daily calendar view
+* Month and week view modes
+* Customizable event display
+* Material 3 design support
+* Light and dark mode support
+* Customizable date picker
+* Sticky time labels
+* Event dot indicators
+* Responsive layout
+* Theme-aware styling
+* Localization support
+* Flutter Hooks integration
 
 ## Installation
 
@@ -25,95 +31,52 @@ dependencies:
 ## Usage
 
 ```dart
-import 'package:flutter/material.dart';
 import 'package:calendar_planner_view/calendar_planner_view.dart';
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: CalendarPlannerView(
-          events: [
-            CalendarEvent(
-              title: 'Team Meeting',
-              startTime: DateTime.now().copyWith(hour: 10, minute: 0),
-              endTime: DateTime.now().copyWith(hour: 11, minute: 30),
-              color: Colors.blue,
-              description: 'Weekly team sync meeting',
-            ),
-          ],
-          onEventTap: (event) {
-            print('Event tapped: ${event.title}');
-          },
-          datePickerPosition: DatePickerPosition.top,
-          showStickyTimeLabels: true,
-          startHour: 8,
-          endHour: 20,
-        ),
-      ),
-    );
-  }
-}
-```
-
-## Customization
-
-### Event Builder
-
-You can customize how events are displayed by providing a custom event builder:
-
-```dart
+// Basic usage
 CalendarPlannerView(
-  events: events,
-  onEventTap: onEventTap,
-  eventBuilder: (context, event) {
-    return Card(
-      child: ListTile(
-        title: Text(event.title),
-        subtitle: Text(event.description ?? ''),
-      ),
-    );
-  },
-)
-```
-
-### Date Picker
-
-The date picker can be shown either at the top of the view or in a modal dialog:
-
-```dart
-CalendarPlannerView(
-  events: events,
-  onEventTap: onEventTap,
-  datePickerPosition: DatePickerPosition.modal, // or DatePickerPosition.top
-)
-```
-
-### Time Labels
-
-You can customize the time labels style and make them sticky while scrolling:
-
-```dart
-CalendarPlannerView(
-  events: events,
-  onEventTap: onEventTap,
+  events: myEvents,
+  onEventTap: (event) => print('Event tapped: $event'),
+  datePickerPosition: DatePickerPosition.top,
   showStickyTimeLabels: true,
-  timeLabelStyle: TextStyle(
-    color: Colors.blue,
+)
+
+// Advanced usage with customization
+CalendarPlannerView(
+  events: myEvents,
+  onEventTap: (event) => print('Event tapped: $event'),
+  datePickerPosition: DatePickerPosition.modal,
+  showStickyTimeLabels: true,
+  startHour: 8,
+  endHour: 20,
+  showDayTitle: true,
+  enableViewToggle: true,
+  initialView: CalendarViewType.week,
+  dotColor: Colors.blue,
+  modalBackgroundColor: Colors.white,
+  modalTitleStyle: TextStyle(
+    color: Colors.black,
     fontWeight: FontWeight.bold,
   ),
 )
 ```
 
-## Example
+## Live Demo
 
-Check out the [example](example) directory for a complete working example of the package.
+Check out the [live demo](https://calendar-planner-view.pages.dev/) to see the calendar planner view in action.
+
+## Dependencies
+
+* Flutter SDK
+* intl: ^0.18.1
+* table_calendar: ^3.0.9
+* flutter_hooks: ^0.20.3
 
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 
+This project is licensed under the MIT License - see the LICENSE file for details. 

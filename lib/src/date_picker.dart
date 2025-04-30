@@ -324,7 +324,7 @@ class FlexibleDatePicker extends HookWidget {
               style: weekdayLabelStyle ??
                   theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: theme.colorScheme.onSurface.withOpacity(0.6),
+                    color: theme.colorScheme.onSurface.withAlpha(153),
                   ),
               textAlign: TextAlign.center,
             ),
@@ -343,7 +343,7 @@ class FlexibleDatePicker extends HookWidget {
               '${day.day}',
               style: dayNumberStyle ??
                   theme.textTheme.bodyLarge?.copyWith(
-                    color: theme.colorScheme.onSurface.withOpacity(0.4),
+                    color: theme.colorScheme.onSurface.withAlpha(102),
                   ),
             ),
           ),

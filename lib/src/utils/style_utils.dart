@@ -174,7 +174,7 @@ class CalendarStyleUtils {
         borderRadius: cellShape == BoxShape.rectangle ? cellBorderRadius : null,
       ),
       todayDecoration: BoxDecoration(
-        color: theme.colorScheme.primary.withOpacity(0.2),
+        color: theme.colorScheme.primary.withAlpha(51),
         shape: cellShape,
         borderRadius: cellShape == BoxShape.rectangle ? cellBorderRadius : null,
       ),
