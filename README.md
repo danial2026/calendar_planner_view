@@ -31,7 +31,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  calendar_planner_view: ^0.1.0
+  calendar_planner_view: any
 ```
 
 ## Usage
