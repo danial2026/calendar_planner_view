@@ -74,9 +74,9 @@ Check out the [live demo](https://calendar-planner-view.pages.dev/) to see the c
 ## Dependencies
 
 * Flutter SDK
-* intl: ^0.18.1
-* table_calendar: ^3.0.9
-* flutter_hooks: ^0.20.3
+* intl: ^0.20.2
+* table_calendar: ^3.2.0
+* flutter_hooks: ^0.21.2
 
 ## Contributing
 
