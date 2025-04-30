@@ -198,7 +198,7 @@ class CalendarStyleUtils {
     double? borderRadius,
   }) {
     return BoxDecoration(
-      color: backgroundColor ?? theme.colorScheme.surfaceVariant,
+      color: backgroundColor ?? theme.colorScheme.surfaceContainerHighest,
       borderRadius: BorderRadius.circular(borderRadius ?? defaultWeekNumberBorderRadius),
     );
   }

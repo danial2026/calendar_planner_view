@@ -531,7 +531,7 @@ class CalendarPlannerView extends HookWidget {
                   borderRadius: BorderRadius.circular(8),
                   color: theme.colorScheme.onSurface.withAlpha(51),
                   selectedColor: theme.colorScheme.onSurface,
-                  fillColor: theme.colorScheme.surfaceVariant,
+                  fillColor: theme.colorScheme.surfaceContainerHighest,
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
