@@ -3,8 +3,6 @@ description: A customizable daily calendar planner view with time-based events a
 version: 0.1.0
 homepage: https://github.com/danial2026/calendar_planner_view
 
-publish_to: https://pub.dev
-
 environment:
   sdk: ">=3.0.0 <4.0.0"
   flutter: ">=3.0.0"
