@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 /// Displays time labels for the calendar timeline.
 ///
@@ -40,7 +39,6 @@ class TimeLabels extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final timeFormat = DateFormat.Hm();
     final now = DateTime.now();
 
     return LayoutBuilder(
@@ -66,7 +64,7 @@ class TimeLabels extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        timeFormat.format(time),
+                        time.hour.toString(),
                         style: (style ?? theme.textTheme.bodyMedium)?.copyWith(
                           color: isCurrentHourAndDay ? Colors.white : Colors.grey[400],
                           fontWeight: isCurrentHourAndDay ? FontWeight.bold : null,

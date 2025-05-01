@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 ///
 /// Each event has a title, time range, color, and optional description.
 /// Events can be displayed in the calendar view and planner timeline.
+/// Events can be assigned to specific columns in multi-column layouts.
 class CalendarEvent {
   /// Creates a calendar event.
   ///
@@ -15,6 +16,7 @@ class CalendarEvent {
   ///   endTime: DateTime(2024, 3, 15, 11, 0),   // March 15, 2024, 11:00 AM
   ///   color: Colors.blue,
   ///   description: 'Weekly team sync meeting',
+  ///   columnId: 'work', // Optional column identifier for multi-column layout
   /// );
   /// ```
   CalendarEvent({
@@ -23,6 +25,7 @@ class CalendarEvent {
     DateTime? endTime,
     Color? color,
     this.description,
+    this.columnId,
   })  : endTime = endTime ?? startTime.add(const Duration(hours: 1)),
         color = color ?? Colors.blue;
 
@@ -41,15 +44,26 @@ class CalendarEvent {
   /// Optional event description or notes
   final String? description;
 
+  /// Optional column identifier for multi-column layout.
+  ///
+  /// When using multi-column layout:
+  /// - Must match one of the column IDs defined in the layout
+  /// - If not specified or invalid, event will be displayed in the default column
+  /// - Used to organize events into specific columns (e.g., 'work', 'personal')
+  /// - Helps in creating separate timelines for different event categories
+  final String? columnId;
+
   /// Creates a new event with updated properties.
   ///
   /// Only specify the properties you want to change.
+  /// All other properties will be copied from the original event.
   CalendarEvent copyWith({
     String? title,
     DateTime? startTime,
     DateTime? endTime,
     Color? color,
     String? description,
+    String? columnId,
   }) {
     return CalendarEvent(
       title: title ?? this.title,
@@ -57,6 +71,7 @@ class CalendarEvent {
       endTime: endTime ?? this.endTime,
       color: color ?? this.color,
       description: description ?? this.description,
+      columnId: columnId ?? this.columnId,
     );
   }
 
@@ -68,11 +83,12 @@ class CalendarEvent {
         other.startTime == startTime &&
         other.endTime == endTime &&
         other.color == color &&
-        other.description == description;
+        other.description == description &&
+        other.columnId == columnId;
   }
 
   @override
   int get hashCode {
-    return Object.hash(title, startTime, endTime, color, description);
+    return Object.hash(title, startTime, endTime, color, description, columnId);
   }
 }

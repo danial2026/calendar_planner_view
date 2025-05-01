@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.8
+
+* Added support for custom event columns:
+  * Optional additional columns with custom titles and content
+  * Minimum 2 and maximum 10 columns
+  * Customizable column width
+  * Flexible content builder for each column
+* Enhanced event list layout with column headers
+* Improved event time display
+* Events with the same start time are now always shown side by side in a row in the timeline view, improving clarity for simultaneous events. 
 
 ## 0.1.7
 

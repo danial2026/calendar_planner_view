@@ -62,7 +62,7 @@ class CalendarPlannerView extends HookWidget {
   const CalendarPlannerView({
     super.key,
     required this.events,
-    required this.onEventTap,
+    this.onEventTap,
     this.datePickerPosition = DatePickerPosition.top,
     this.startHour = 0,
     this.endHour = 24,
@@ -109,6 +109,13 @@ class CalendarPlannerView extends HookWidget {
     this.modalCloseButtonStyle,
     this.modalTodayButtonStyle,
     this.modalTodayButtonTextStyle,
+    this.columnTitleStyle,
+    this.titleTextStyle,
+    this.timeTextStyle,
+    this.descriptionTextStyle,
+    this.timeLabelWidth = 45,
+    this.columns = const [],
+    this.scrollController,
   });
 
   /// List of events to display in the calendar.
@@ -117,7 +124,7 @@ class CalendarPlannerView extends HookWidget {
 
   /// Callback when an event is tapped.
   /// Provides the tapped event for handling user interaction.
-  final void Function(CalendarEvent) onEventTap;
+  final void Function(CalendarEvent)? onEventTap;
 
   /// Position of the date picker.
   /// - [DatePickerPosition.top]: Always visible above the timeline
@@ -131,6 +138,15 @@ class CalendarPlannerView extends HookWidget {
   /// Last hour to display in the timeline (0-23).
   /// Events after this hour will be hidden.
   final int endHour;
+
+  /// Text style for the event title
+  final TextStyle? titleTextStyle;
+
+  /// Text style for the event time
+  final TextStyle? timeTextStyle;
+
+  /// Text style for the event description
+  final TextStyle? descriptionTextStyle;
 
   /// Custom builder for event widgets in the timeline.
   /// Allows complete customization of event appearance and behavior.
@@ -324,6 +340,21 @@ class CalendarPlannerView extends HookWidget {
   /// Text style for the modal today button.
   /// Controls the appearance of the "Today" button text.
   final TextStyle? modalTodayButtonTextStyle;
+
+  /// Width of the time labels.
+  /// Controls the width of the time labels in the timeline.
+  final double timeLabelWidth;
+
+  /// Style for column titles.
+  /// Controls the appearance of column titles in the multi-column layout.
+  final TextStyle? columnTitleStyle;
+
+  /// List of column configurations for multi-column layout
+  /// Each column has an id and optional title
+  /// Minimum 2 columns, maximum 10 columns
+  final List<({String id, String? title})> columns;
+
+  final ScrollController? scrollController;
 
   String _formattedDate(DateTime date) {
     return CalendarDateUtils.formatDate(date, format: dateFormat, locale: locale);
@@ -616,6 +647,51 @@ class CalendarPlannerView extends HookWidget {
                   ),
             ),
           ),
+        // Column titles
+        if (columns.isNotEmpty)
+          Row(
+            children: [
+              SizedBox(width: timeLabelWidth),
+              Container(
+                height: 48,
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.surface,
+                  border: Border(
+                    bottom: BorderSide(
+                      color: theme.colorScheme.outlineVariant,
+                      width: 1,
+                    ),
+                  ),
+                ),
+                child: Row(
+                  children: List.generate(
+                    columns.length,
+                    (index) {
+                      final column = columns[index];
+                      final columnWidth = (MediaQuery.of(context).size.width - timeLabelWidth) / columns.length;
+                      return SizedBox(
+                        width: columnWidth,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Text(
+                            column.title ?? column.id.toUpperCase(),
+                            style: columnTitleStyle ??
+                                theme.textTheme.titleSmall?.copyWith(
+                                  color: theme.colorScheme.onSurfaceVariant,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
         Expanded(
           child: SingleChildScrollView(
             controller: scrollController,
@@ -623,21 +699,14 @@ class CalendarPlannerView extends HookWidget {
               height: 24 * 60.0, // 24 hours * 60 minutes
               child: Row(
                 children: [
-                  // Time labels
                   SizedBox(
-                    width: 60,
+                    width: timeLabelWidth,
                     child: TimeLabels(
                       startHour: startHour,
                       endHour: endHour,
                       style: timeLabelStyle,
                     ),
                   ),
-                  // Vertical divider
-                  Container(
-                    width: 1,
-                    color: theme.colorScheme.outline.withAlpha(51),
-                  ),
-                  // Event list
                   Expanded(
                     child: EventList(
                       events: filteredEvents,
@@ -645,7 +714,12 @@ class CalendarPlannerView extends HookWidget {
                       startHour: startHour,
                       endHour: endHour,
                       eventBuilder: eventBuilder,
+                      scrollController: scrollController,
                       selectedDate: selectedDate.value,
+                      columns: columns,
+                      titleTextStyle: titleTextStyle,
+                      timeTextStyle: timeTextStyle,
+                      descriptionTextStyle: descriptionTextStyle,
                     ),
                   ),
                 ],

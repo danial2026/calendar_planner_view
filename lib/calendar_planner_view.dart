@@ -27,6 +27,9 @@ export 'src/time_labels.dart';
 /// * Light and dark mode support
 /// * Customizable date picker
 /// * Sticky time labels
+/// * Multi-column layout support
+/// * Event overlap handling
+/// * Responsive design
 ///
 /// ## Installation
 /// Add this to your package's `pubspec.yaml` file:
@@ -47,7 +50,7 @@ export 'src/time_labels.dart';
 ///   showStickyTimeLabels: true,
 /// )
 ///
-/// // Advanced usage with customization
+/// // Advanced usage with multi-column layout
 /// CalendarPlannerView(
 ///   events: myEvents,
 ///   onEventTap: (event) => print('Event tapped: $event'),
@@ -58,6 +61,11 @@ export 'src/time_labels.dart';
 ///   showDayTitle: true,
 ///   enableViewToggle: true,
 ///   initialView: CalendarViewType.week,
+///   columns: [
+///     (id: 'work', title: 'Work'),
+///     (id: 'personal', title: 'Personal'),
+///     (id: 'meetings', title: 'Meetings'),
+///   ],
 ///   dotColor: Colors.blue,
 ///   modalBackgroundColor: Colors.white,
 ///   modalTitleStyle: TextStyle(
@@ -75,6 +83,20 @@ export 'src/time_labels.dart';
 /// * **Date Navigation**: Easy date selection with customizable date picker
 /// * **Responsive Design**: Adapts to different screen sizes
 /// * **Accessibility**: Support for screen readers and keyboard navigation
+/// * **Multi-column Layout**: Organize events into separate columns
+/// * **Event Overlap Handling**: Smart positioning of overlapping events
+/// * **Custom Event Builders**: Create custom event displays
+/// * **Time Range Control**: Set custom start and end hours
+/// * **Event Indicators**: Visual dots for dates with events
+///
+/// ## Multi-column Layout
+/// The calendar planner supports organizing events into multiple columns:
+/// * Define columns with unique IDs and optional titles
+/// * Assign events to specific columns using `columnId`
+/// * Automatic column width calculation
+/// * Visual column dividers
+/// * Minimum 2 columns, maximum 10 columns
+/// * Events without columnId use default column
 ///
 /// ## Dependencies
 /// * Flutter SDK

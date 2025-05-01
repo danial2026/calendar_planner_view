@@ -1,8 +1,8 @@
 /// Calendar configuration enums for the calendar planner view.
 ///
 /// This file contains all the enumeration types used to configure various aspects
-/// of the calendar planner view, including event visualization, view modes, and
-/// date picker placement.
+/// of the calendar planner view, including event visualization, view modes,
+/// date picker placement, and multi-column layout.
 ///
 /// ## Event Visualization
 /// The [EventDotShape] enum defines the visual representation of event indicators:
@@ -18,11 +18,6 @@
 /// * [CalendarViewType.month]: Full month calendar view
 /// * [CalendarViewType.week]: Single week calendar view
 ///
-/// ### CalendarViewMode
-/// Alternative view mode configuration:
-/// * [CalendarViewMode.month]: Month view
-/// * [CalendarViewMode.week]: Week view
-///
 /// ## Date Picker Configuration
 /// Two enums are provided for date picker placement:
 ///
@@ -36,6 +31,14 @@
 /// * [DatePickerDisplayMode.inline]: Date picker displayed inline
 /// * [DatePickerDisplayMode.popup]: Date picker displayed as a popup
 ///
+/// ## Multi-Column Layout
+/// The calendar planner supports multi-column layout for organizing events:
+/// * Each column has a unique identifier and optional title
+/// * Events can be assigned to specific columns
+/// * Minimum 2 columns, maximum 10 columns
+/// * Automatic column width calculation
+/// * Visual column dividers
+///
 /// ## Usage
 /// ```dart
 /// // Configure event dot shape
@@ -46,6 +49,12 @@
 ///
 /// // Configure date picker position
 /// final pickerPosition = DatePickerPosition.modal;
+///
+/// // Define multi-column layout
+/// final columns = [
+///   (id: 'work', title: 'Work'),
+///   (id: 'personal', title: 'Personal'),
+/// ];
 /// ```
 
 /// Event dot shape in the calendar view
@@ -76,15 +85,6 @@ enum DatePickerPosition {
 
   /// Displayed as a modal/popup
   modal
-}
-
-/// Defines how the calendar view can be displayed (alternative to CalendarViewType)
-enum CalendarViewMode {
-  /// Month view of the calendar
-  month,
-
-  /// Week view of the calendar
-  week
 }
 
 /// Determines the placement of the date selection interface (alternative to DatePickerPosition)
