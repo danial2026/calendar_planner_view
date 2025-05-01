@@ -63,6 +63,7 @@ class FlexibleDatePicker extends HookWidget {
     this.minDate,
     this.maxDate,
     this.calendarView = CalendarFormat.month,
+    this.onCalendarFormatChanged,
     this.headerStyle,
     this.dayStyle,
     this.monthTitleStyle,
@@ -105,6 +106,9 @@ class FlexibleDatePicker extends HookWidget {
 
   /// Callback when a new date is selected
   final ValueChanged<DateTime> onDateChanged;
+
+  /// Callback when calendar format changes (month/week)
+  final ValueChanged<CalendarFormat>? onCalendarFormatChanged;
 
   /// How the picker should be displayed
   final DatePickerDisplayMode displayMode;
@@ -288,10 +292,12 @@ class FlexibleDatePicker extends HookWidget {
         if (calendarFormat.value == CalendarFormat.month && dragDistance.value > dragThreshold) {
           // Switch to week view
           calendarFormat.value = CalendarFormat.week;
+          onCalendarFormatChanged?.call(CalendarFormat.week);
           animationController.forward();
         } else if (calendarFormat.value == CalendarFormat.week && dragDistance.value < -dragThreshold) {
           // Switch to month view
           calendarFormat.value = CalendarFormat.month;
+          onCalendarFormatChanged?.call(CalendarFormat.month);
           animationController.forward();
         } else {
           // Spring back to original position

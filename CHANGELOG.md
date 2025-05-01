@@ -5,6 +5,7 @@
 * Added smooth gesture-based view switching (month ↔ week) with natural animations
 * Improved calendar UX with controlled drag distance and damping
 * Added CalendarStyle extension for better customization
+* Fixed toggle button state sync with gesture-based view changes
 
 ## 0.1.4
 

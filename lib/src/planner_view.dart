@@ -568,6 +568,9 @@ class CalendarPlannerView extends HookWidget {
             weekdayNames: weekdayNames,
             weekLabelText: weekLabelText,
             todayLabel: todayLabel,
+            onCalendarFormatChanged: (format) {
+              viewType.value = format == CalendarFormat.month ? CalendarViewType.month : CalendarViewType.week;
+            },
           )
         else
           FlexibleDatePicker(
@@ -591,6 +594,9 @@ class CalendarPlannerView extends HookWidget {
             weekdayNames: weekdayNames,
             weekLabelText: weekLabelText,
             todayLabel: todayLabel,
+            onCalendarFormatChanged: (format) {
+              viewType.value = format == CalendarFormat.month ? CalendarViewType.month : CalendarViewType.week;
+            },
           ),
         if (showDayTitle)
           Padding(
