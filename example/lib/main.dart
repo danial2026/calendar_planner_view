@@ -177,7 +177,7 @@ class MyHomePage extends StatelessWidget {
             endHour: 20,
             showDayTitle: true,
             enableViewToggle: true,
-            initialView: CalendarViewType.week,
+            initialView: CalendarViewType.month,
             dotColor: theme.colorScheme.primary,
             modalBackgroundColor: theme.colorScheme.surface,
             modalTitleStyle: theme.textTheme.titleLarge?.copyWith(
