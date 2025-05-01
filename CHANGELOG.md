@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.5
+
+* Added smooth gesture-based view switching (month ↔ week) with natural animations
+* Improved calendar UX with controlled drag distance and damping
+* Added CalendarStyle extension for better customization
+
 ## 0.1.4
 
 * Update package version to 0.1.4
