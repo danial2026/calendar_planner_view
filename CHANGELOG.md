@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.6
+
+* Fix horizontal swipe gesture support
+* Enhanced gesture handling for smoother transitions
+
 ## 0.1.5
 
 * Added smooth gesture-based view switching (month ↔ week) with natural animations
