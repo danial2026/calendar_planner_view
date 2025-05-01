@@ -92,7 +92,7 @@ class FlexibleDatePicker extends HookWidget {
     this.chevronIconStyle,
     this.calendarPadding = const EdgeInsets.all(8.0),
     this.calendarMargin = const EdgeInsets.all(8.0),
-    this.calendarBackgroundColor,
+    this.calendarBackgroundColor = Colors.transparent,
     this.calendarBorderRadius,
     this.calendarBorder,
     this.calendarShadowColor,
@@ -226,6 +226,17 @@ class FlexibleDatePicker extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final calendarFormat = useState(calendarView);
+    final dragStartY = useState<double?>(null);
+    final dragDistance = useState<double>(0);
+    final animationController = useAnimationController(
+      duration: const Duration(milliseconds: 300),
+    );
+
+    // Constants for gesture control
+    const maxDragDistance = 150.0;
+    const dragThreshold = 80.0;
+    const dragDamping = 0.5;
 
     // Count events for a given day
     int eventCountForDay(DateTime day) {
@@ -258,97 +269,138 @@ class FlexibleDatePicker extends HookWidget {
       cellBorderRadius: cellBorderRadius,
     );
 
-    return Container(
-      padding: calendarPadding,
-      margin: calendarMargin,
-      decoration: CalendarStyleUtils.getDefaultCalendarDecoration(
-        theme,
-        backgroundColor: calendarBackgroundColor,
-        borderRadius: calendarBorderRadius,
-        border: calendarBorder,
-        shadowColor: calendarShadowColor,
-        shadowBlurRadius: calendarShadowBlurRadius,
-        shadowOffset: calendarShadowOffset,
-      ),
-      child: TableCalendar(
-        firstDay: minDate ?? DateTime(selectedDate.year - 1),
-        lastDay: maxDate ?? DateTime(selectedDate.year + 1),
-        focusedDay: selectedDate,
-        selectedDayPredicate: (day) => CalendarDateUtils.isSameDay(selectedDate, day),
-        onDaySelected: (selectedDay, focusedDay) {
-          onDateChanged(DateTime(selectedDay.year, selectedDay.month, selectedDay.day));
-        },
-        calendarFormat: calendarView,
-        headerStyle: headerStyle ?? defaultHeaderStyle,
-        calendarStyle: dayStyle ?? defaultCalendarStyle,
-        calendarBuilders: CalendarBuilders(
-          markerBuilder: (context, day, events) => eventDotsBuilder(context, day, day),
-          headerTitleBuilder: (context, day) => Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                CalendarDateUtils.getMonthName(day, monthNames: monthNames).toUpperCase(),
-                style: monthTitleStyle ??
-                    theme.textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.2,
-                      color: theme.colorScheme.onSurface,
-                    ),
+    return GestureDetector(
+      onVerticalDragStart: (details) {
+        dragStartY.value = details.globalPosition.dy;
+      },
+      onVerticalDragUpdate: (details) {
+        if (dragStartY.value != null) {
+          final delta = dragStartY.value! - details.globalPosition.dy;
+          // Allow both upward and downward drags based on current view
+          if ((calendarFormat.value == CalendarFormat.month && delta > 0) || (calendarFormat.value == CalendarFormat.week && delta < 0)) {
+            // Apply damping and limit maximum drag distance
+            final dampedDelta = delta * dragDamping;
+            dragDistance.value = delta > 0 ? dampedDelta.clamp(0, maxDragDistance) : dampedDelta.clamp(-maxDragDistance, 0);
+          }
+        }
+      },
+      onVerticalDragEnd: (details) {
+        if (calendarFormat.value == CalendarFormat.month && dragDistance.value > dragThreshold) {
+          // Switch to week view
+          calendarFormat.value = CalendarFormat.week;
+          animationController.forward();
+        } else if (calendarFormat.value == CalendarFormat.week && dragDistance.value < -dragThreshold) {
+          // Switch to month view
+          calendarFormat.value = CalendarFormat.month;
+          animationController.forward();
+        } else {
+          // Spring back to original position
+          animationController.reverse();
+        }
+        dragStartY.value = null;
+        dragDistance.value = 0;
+      },
+      child: AnimatedBuilder(
+        animation: animationController,
+        builder: (context, child) {
+          return Transform.translate(
+            offset: Offset(0, -dragDistance.value * 0.3), // Reduced movement multiplier for more control
+            child: Container(
+              padding: calendarPadding,
+              margin: calendarMargin,
+              decoration: CalendarStyleUtils.getDefaultCalendarDecoration(
+                theme,
+                backgroundColor: calendarBackgroundColor,
+                borderRadius: calendarBorderRadius,
+                border: calendarBorder,
+                shadowColor: calendarShadowColor,
+                shadowBlurRadius: calendarShadowBlurRadius,
+                shadowOffset: calendarShadowOffset,
               ),
-              if (calendarView == CalendarFormat.week) ...[
-                const SizedBox(width: 12),
-                Container(
-                  padding: weekNumberPadding,
-                  decoration: weekNumberContainerStyle ??
-                      CalendarStyleUtils.getDefaultWeekNumberDecoration(
-                        theme,
-                        backgroundColor: weekNumberBackgroundColor,
-                        borderRadius: weekNumberBorderRadius,
+              child: TableCalendar(
+                availableGestures: AvailableGestures.horizontalSwipe,
+                firstDay: minDate ?? DateTime(selectedDate.year - 1),
+                lastDay: maxDate ?? DateTime(selectedDate.year + 1),
+                focusedDay: selectedDate,
+                selectedDayPredicate: (day) => CalendarDateUtils.isSameDay(selectedDate, day),
+                onDaySelected: (selectedDay, focusedDay) {
+                  onDateChanged(DateTime(selectedDay.year, selectedDay.month, selectedDay.day));
+                },
+                calendarFormat: calendarFormat.value,
+                headerStyle: headerStyle ?? defaultHeaderStyle,
+                calendarStyle: dayStyle ?? defaultCalendarStyle,
+                calendarBuilders: CalendarBuilders(
+                  markerBuilder: (context, day, events) => eventDotsBuilder(context, day, day),
+                  headerTitleBuilder: (context, day) => Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        CalendarDateUtils.getMonthName(day, monthNames: monthNames).toUpperCase(),
+                        style: monthTitleStyle ??
+                            theme.textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.2,
+                              color: theme.colorScheme.onSurface,
+                            ),
                       ),
-                  child: Text(
-                    '$weekLabelText ${CalendarDateUtils.getWeekNumber(day)}',
-                    style: weekNumberTextStyle ??
-                        weekNumberStyle ??
-                        theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: weekNumberTextColor ?? theme.colorScheme.onSurfaceVariant,
+                      if (calendarFormat.value == CalendarFormat.week) ...[
+                        const SizedBox(width: 12),
+                        Container(
+                          padding: weekNumberPadding,
+                          decoration: weekNumberContainerStyle ??
+                              CalendarStyleUtils.getDefaultWeekNumberDecoration(
+                                theme,
+                                backgroundColor: weekNumberBackgroundColor,
+                                borderRadius: weekNumberBorderRadius,
+                              ),
+                          child: Text(
+                            '$weekLabelText ${CalendarDateUtils.getWeekNumber(day)}',
+                            style: weekNumberTextStyle ??
+                                weekNumberStyle ??
+                                theme.textTheme.titleSmall?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: weekNumberTextColor ?? theme.colorScheme.onSurfaceVariant,
+                                ),
+                          ),
                         ),
+                      ],
+                    ],
+                  ),
+                  dowBuilder: (context, day) => Center(
+                    child: Text(
+                      CalendarDateUtils.getWeekdayName(day, weekdayNames: weekdayNames),
+                      style: weekdayLabelStyle ??
+                          theme.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: theme.colorScheme.onSurface.withAlpha(153),
+                          ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  defaultBuilder: (context, day, focusedDay) => Center(
+                    child: Text(
+                      '${day.day}',
+                      style: dayNumberStyle ??
+                          theme.textTheme.bodyLarge?.copyWith(
+                            color: theme.colorScheme.onSurface,
+                          ),
+                    ),
+                  ),
+                  outsideBuilder: (context, day, focusedDay) => Center(
+                    child: Text(
+                      '${day.day}',
+                      style: dayNumberStyle ??
+                          theme.textTheme.bodyLarge?.copyWith(
+                            color: theme.colorScheme.onSurface.withAlpha(102),
+                          ),
+                    ),
                   ),
                 ),
-              ],
-            ],
-          ),
-          dowBuilder: (context, day) => Center(
-            child: Text(
-              CalendarDateUtils.getWeekdayName(day, weekdayNames: weekdayNames),
-              style: weekdayLabelStyle ??
-                  theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: theme.colorScheme.onSurface.withAlpha(153),
-                  ),
-              textAlign: TextAlign.center,
+                locale: locale,
+              ),
             ),
-          ),
-          defaultBuilder: (context, day, focusedDay) => Center(
-            child: Text(
-              '${day.day}',
-              style: dayNumberStyle ??
-                  theme.textTheme.bodyLarge?.copyWith(
-                    color: theme.colorScheme.onSurface,
-                  ),
-            ),
-          ),
-          outsideBuilder: (context, day, focusedDay) => Center(
-            child: Text(
-              '${day.day}',
-              style: dayNumberStyle ??
-                  theme.textTheme.bodyLarge?.copyWith(
-                    color: theme.colorScheme.onSurface.withAlpha(102),
-                  ),
-            ),
-          ),
-        ),
-        locale: locale,
+          );
+        },
       ),
     );
   }
