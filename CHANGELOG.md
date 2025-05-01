@@ -1,5 +1,11 @@
 # Changelog
 
+
+## 0.1.7
+
+* Enhanced documentation and code comments
+* Fixed calendar view not updating when toggle button is pressed
+
 ## 0.1.6
 
 * Fix horizontal swipe gesture support

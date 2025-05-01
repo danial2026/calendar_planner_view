@@ -10,7 +10,9 @@ import 'models/event_utils.dart';
 /// Professional calendar date selection widget with extensive customization.
 ///
 /// Features:
-/// - Month and week view support
+/// - Month and week view support with smooth transitions
+/// - Gesture-based view switching (pull up/down)
+/// - Horizontal swipe for month navigation
 /// - Event indicators with customizable appearance
 /// - Custom styling for all calendar elements
 /// - Localization support
@@ -30,6 +32,7 @@ import 'models/event_utils.dart';
 /// FlexibleDatePicker(
 ///   selectedDate: DateTime.now(),
 ///   onDateChanged: (date) => setState(() => _selected = date),
+///   onCalendarFormatChanged: (format) => setState(() => _format = format),
 ///   displayMode: DatePickerDisplayMode.inline,
 ///   events: myEvents,
 ///   dotColor: Colors.blue,
@@ -45,6 +48,9 @@ class FlexibleDatePicker extends HookWidget {
   /// - [DatePickerDisplayMode.popup]: Calendar is shown in a popup dialog
   ///
   /// The calendar features:
+  /// - Smooth transitions between month and week views
+  /// - Gesture-based view switching (pull up/down)
+  /// - Horizontal swipe for month navigation
   /// - Customizable cell shapes (circle, rectangle)
   /// - Event indicators with dots
   /// - Week number display
@@ -108,6 +114,8 @@ class FlexibleDatePicker extends HookWidget {
   final ValueChanged<DateTime> onDateChanged;
 
   /// Callback when calendar format changes (month/week)
+  /// This is called when the view changes either through the toggle button
+  /// or through gesture-based switching.
   final ValueChanged<CalendarFormat>? onCalendarFormatChanged;
 
   /// How the picker should be displayed
@@ -237,10 +245,16 @@ class FlexibleDatePicker extends HookWidget {
       duration: const Duration(milliseconds: 300),
     );
 
+    // Update calendar format when prop changes (e.g., when toggle button is pressed)
+    useEffect(() {
+      calendarFormat.value = calendarView;
+      return null;
+    }, [calendarView]);
+
     // Constants for gesture control
-    const maxDragDistance = 150.0;
-    const dragThreshold = 80.0;
-    const dragDamping = 0.5;
+    const maxDragDistance = 150.0; // Maximum distance the calendar can be dragged
+    const dragThreshold = 80.0; // Distance required to trigger view change
+    const dragDamping = 0.5; // Resistance applied to drag movement
 
     // Count events for a given day
     int eventCountForDay(DateTime day) {
