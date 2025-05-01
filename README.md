@@ -10,6 +10,11 @@ A customizable daily calendar planner view with time-based events and Material 3
 | ![Day View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/Screenshot_20250501_001804.jpg) | ![Modal View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/Screenshot_20250501_001827.jpg) |
 |------------------------------------|------------------------------------|
 
+
+| ![Custom Events View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/Screenshot_20250501_204332.jpg) | ![Multi Column View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/Screenshot_20250501_203452.jpg) |
+|------------------------------------|------------------------------------|
+
+
 ## Features
 
 * Time-based daily calendar view
