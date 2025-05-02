@@ -4,14 +4,14 @@ A customizable daily calendar planner view with time-based events and Material 3
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-View%20Online-blue)](https://calendar-planner-view.pages.dev/)
 
-| ![Month View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/Screenshot_20250501_001812.jpg) | ![Week View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/Screenshot_20250501_001817.jpg) |
+| ![Month View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/basic-month-view.jpg) | ![Week View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/basic-week-view.jpg) |
 |------------------------------------|------------------------------------|
 
-| ![Day View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/Screenshot_20250501_001804.jpg) | ![Modal View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/Screenshot_20250501_001827.jpg) |
+| ![Select Date](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/select-date.jpg) | ![Multi Theme](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/select-theme.jpg) |
 |------------------------------------|------------------------------------|
 
 
-| ![Custom Events View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/Screenshot_20250501_204332.jpg) | ![Multi Column View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/Screenshot_20250501_203452.jpg) |
+| ![Multi Column Month View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/multi-column-month-view.jpg) | ![Multi Column Week View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/multi-column-week-view.jpg) |
 |------------------------------------|------------------------------------|
 
 
@@ -21,14 +21,13 @@ A customizable daily calendar planner view with time-based events and Material 3
 * Month and week view modes
 * Customizable event display
 * Material 3 design support
-* Light and dark mode support
+* Customizable theme support
 * Customizable date picker
 * Sticky time labels
 * Event dot indicators
 * Responsive layout
 * Theme-aware styling
 * Localization support
-* Flutter Hooks integration
 
 ## Installation
 

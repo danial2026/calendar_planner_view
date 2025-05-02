@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.9
+
+* Update screenshots
+
 ## 0.1.8
 
 * Added support for custom event columns:
