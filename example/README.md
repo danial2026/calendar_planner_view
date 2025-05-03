@@ -1,16 +1,25 @@
 # calendar_planner_view_example
 
-A new Flutter project.
+## About
+
+This is an example Flutter application that showcases the features and implementation of the calendar_planner_view package. It serves as a practical reference for developers who want to integrate the calendar planner view into their applications.
+
+> **Note**: This example was written by Claude Sonnet and may contain some messy or suboptimal code. For production use, please refer to the main package documentation and comments for best practices and proper implementation details.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+To run this example:
 
-A few resources to get you started if this is your first Flutter project:
+1. Make sure you have Flutter installed
+2. Clone the repository
+3. Navigate to the example directory
+4. Run `flutter pub get`
+5. Run `flutter run`
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+For more information about the calendar_planner_view package, please refer to the main [README.md](../README.md) in the parent directory.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Resources
+
+- [Main Package Documentation](../README.md)
+- [Live Demo](https://calendar-planner-view.pages.dev/)
+- [Flutter Documentation](https://docs.flutter.dev/)
