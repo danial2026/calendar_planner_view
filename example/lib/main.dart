@@ -7,6 +7,8 @@ import 'demos/basic_demo.dart';
 import 'demos/multi_column_demo.dart';
 import 'demos/custom_events_demo.dart';
 import 'demos/theme_demo.dart';
+import 'demos/compact_demo.dart';
+import 'demos/minimal_demo.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -93,6 +95,82 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final currentTheme = context.watch<ThemeBloc>().state.theme;
+    final width = MediaQuery.of(context).size.width;
+
+    final listView = MediaQuery.of(context).size.width > 760 || MediaQuery.of(context).size.width < 470;
+
+    if (width < 320) {
+      return Scaffold(
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.warning_amber_rounded,
+                  size: 48,
+                  color: theme.colorScheme.error,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Device Not Supported',
+                  style: theme.textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: theme.colorScheme.error,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'This app requires a minimum screen width of 320 pixels.',
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.bodyLarge,
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    final demos = [
+      (
+        title: 'Basic Demo',
+        description: 'Simple calendar view with basic events',
+        icon: Icons.calendar_today,
+        route: const BasicDemo(),
+      ),
+      (
+        title: 'Multi-Column Demo',
+        description: 'Calendar with multiple columns for different event types',
+        icon: Icons.view_column,
+        route: const MultiColumnDemo(),
+      ),
+      (
+        title: 'Custom Events Demo',
+        description: 'Calendar with custom event styling and interactions',
+        icon: Icons.event,
+        route: const CustomEventsDemo(),
+      ),
+      (
+        title: 'Theme Demo',
+        description: 'Calendar with different theme variations',
+        icon: Icons.palette,
+        route: const ThemeDemo(),
+      ),
+      (
+        title: 'Compact Demo',
+        description: 'Compact calendar view with rounded events',
+        icon: Icons.view_compact,
+        route: const CompactDemo(),
+      ),
+      (
+        title: 'Minimal Demo',
+        description: 'Minimal design with custom time slots',
+        icon: Icons.format_list_bulleted,
+        route: const MinimalDemo(),
+      ),
+    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -156,53 +234,90 @@ class HomePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            GridView.count(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
-              mainAxisSpacing: 24,
-              crossAxisSpacing: 24,
-              childAspectRatio: 0.75,
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              children: [
-                _DemoCard(
-                  title: 'Basic Demo',
-                  description: 'Simple calendar view with basic events',
-                  icon: Icons.calendar_today,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const BasicDemo()),
+            listView
+                ? ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: demos.length,
+                    separatorBuilder: (context, index) => const SizedBox(height: 16),
+                    itemBuilder: (context, index) {
+                      final demo = demos[index];
+                      return _DemoCard(
+                        title: demo.title,
+                        description: demo.description,
+                        icon: demo.icon,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => demo.route),
+                        ),
+                      );
+                    },
+                  )
+                : GridView.count(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 24,
+                    crossAxisSpacing: 24,
+                    childAspectRatio: 0.75,
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    children: [
+                      _DemoCard(
+                        title: 'Basic Demo',
+                        description: 'Simple calendar view with basic events',
+                        icon: Icons.calendar_today,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const BasicDemo()),
+                        ),
+                      ),
+                      _DemoCard(
+                        title: 'Multi-Column Demo',
+                        description: 'Calendar with multiple columns for different event types',
+                        icon: Icons.view_column,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const MultiColumnDemo()),
+                        ),
+                      ),
+                      _DemoCard(
+                        title: 'Custom Events Demo',
+                        description: 'Calendar with custom event styling and interactions',
+                        icon: Icons.event,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const CustomEventsDemo()),
+                        ),
+                      ),
+                      _DemoCard(
+                        title: 'Theme Demo',
+                        description: 'Calendar with different theme variations',
+                        icon: Icons.palette,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const ThemeDemo()),
+                        ),
+                      ),
+                      _DemoCard(
+                        title: 'Compact Demo',
+                        description: 'Compact calendar view with rounded events',
+                        icon: Icons.view_compact,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const CompactDemo()),
+                        ),
+                      ),
+                      _DemoCard(
+                        title: 'Minimal Demo',
+                        description: 'Minimal design with custom time slots',
+                        icon: Icons.format_list_bulleted,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const MinimalDemo()),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                _DemoCard(
-                  title: 'Multi-Column Demo',
-                  description: 'Calendar with multiple columns for different event types',
-                  icon: Icons.view_column,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MultiColumnDemo()),
-                  ),
-                ),
-                _DemoCard(
-                  title: 'Custom Events Demo',
-                  description: 'Calendar with custom event styling and interactions',
-                  icon: Icons.event,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const CustomEventsDemo()),
-                  ),
-                ),
-                _DemoCard(
-                  title: 'Theme Demo',
-                  description: 'Calendar with different theme variations',
-                  icon: Icons.palette,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const ThemeDemo()),
-                  ),
-                ),
-              ],
-            ),
           ],
         ),
       ),
@@ -273,6 +388,7 @@ class _DemoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final listView = MediaQuery.of(context).size.width > 760 || MediaQuery.of(context).size.width < 470;
 
     return Card(
       clipBehavior: Clip.antiAlias,
@@ -283,7 +399,9 @@ class _DemoCard extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          constraints: const BoxConstraints(minHeight: 280),
+          constraints: BoxConstraints(
+            minHeight: listView ? 120 : 280,
+          ),
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -295,60 +413,106 @@ class _DemoCard extends StatelessWidget {
               ],
             ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.primary.withAlpha(26),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  icon,
-                  size: 28,
-                  color: theme.colorScheme.primary,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                title,
-                style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: theme.colorScheme.onSurface,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                description,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                  height: 1.4,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'View Demo',
-                    style: theme.textTheme.labelLarge?.copyWith(
-                      color: theme.colorScheme.primary,
-                      fontWeight: FontWeight.w600,
+          child: listView
+              ? Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.primary.withAlpha(26),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        icon,
+                        size: 28,
+                        color: theme.colorScheme.primary,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 4),
-                  Icon(
-                    Icons.arrow_forward,
-                    size: 16,
-                    color: theme.colorScheme.primary,
-                  ),
-                ],
-              ),
-            ],
-          ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            title,
+                            style: theme.textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: theme.colorScheme.onSurface,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            description,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: theme.colorScheme.onSurfaceVariant,
+                              height: 1.4,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Icon(
+                      Icons.arrow_forward,
+                      size: 24,
+                      color: theme.colorScheme.primary,
+                    ),
+                  ],
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.primary.withAlpha(26),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        icon,
+                        size: 28,
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      title,
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.onSurface,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      description,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                        height: 1.4,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          'View Demo',
+                          style: theme.textTheme.labelLarge?.copyWith(
+                            color: theme.colorScheme.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Icon(
+                          Icons.arrow_forward,
+                          size: 16,
+                          color: theme.colorScheme.primary,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
         ),
       ),
     );
