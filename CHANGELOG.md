@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.10
+
+* Added optional ID field to events for better tracking and persistence
+* Improved event model documentation
+
 ## 0.1.9
 
 * Update screenshots

@@ -2,26 +2,46 @@ import 'package:flutter/material.dart';
 
 /// Represents a calendar event with customizable properties.
 ///
-/// Each event has a title, time range, color, and optional description.
-/// Events can be displayed in the calendar view and planner timeline.
+/// Each event has a title, time range, color, and optional properties like ID, description,
+/// and column assignment. Events can be displayed in the calendar view and planner timeline.
 /// Events can be assigned to specific columns in multi-column layouts.
+///
+/// The event model supports:
+/// * Required properties: title, startTime
+/// * Optional properties: id, endTime, color, description, columnId
+/// * Default values: endTime (1 hour after start), color (blue)
+/// * Immutable design for thread safety
+/// * Equality comparison and hash code generation
 class CalendarEvent {
   /// Creates a calendar event.
+  ///
+  /// Required parameters:
+  /// * [title] - The event title to display
+  /// * [startTime] - When the event begins
+  ///
+  /// Optional parameters:
+  /// * [id] - Unique identifier for the event (useful for tracking and updates)
+  /// * [endTime] - When the event ends (defaults to 1 hour after start)
+  /// * [color] - Event display color (defaults to blue)
+  /// * [description] - Additional event details or notes
+  /// * [columnId] - Column assignment for multi-column layout
   ///
   /// Example:
   /// ```dart
   /// final event = CalendarEvent(
+  ///   id: 'meeting_123', // Optional unique identifier
   ///   title: 'Team Meeting',
   ///   startTime: DateTime(2024, 3, 15, 10, 0), // March 15, 2024, 10:00 AM
   ///   endTime: DateTime(2024, 3, 15, 11, 0),   // March 15, 2024, 11:00 AM
   ///   color: Colors.blue,
   ///   description: 'Weekly team sync meeting',
-  ///   columnId: 'work', // Optional column identifier for multi-column layout
+  ///   columnId: 'work', // Optional column identifier
   /// );
   /// ```
   CalendarEvent({
     required this.title,
     required this.startTime,
+    this.id,
     DateTime? endTime,
     Color? color,
     this.description,
@@ -38,6 +58,15 @@ class CalendarEvent {
   /// Event end time and date (defaults to 1 hour after start time)
   final DateTime endTime;
 
+  /// Optional unique identifier for the event.
+  ///
+  /// The ID can be used to:
+  /// * Track events across updates
+  /// * Identify events in callbacks
+  /// * Link events to external data
+  /// * Support event persistence
+  final String? id;
+
   /// Event display color (defaults to blue)
   final Color color;
 
@@ -47,20 +76,29 @@ class CalendarEvent {
   /// Optional column identifier for multi-column layout.
   ///
   /// When using multi-column layout:
-  /// - Must match one of the column IDs defined in the layout
-  /// - If not specified or invalid, event will be displayed in the default column
-  /// - Used to organize events into specific columns (e.g., 'work', 'personal')
-  /// - Helps in creating separate timelines for different event categories
+  /// * Must match one of the column IDs defined in the layout
+  /// * If not specified or invalid, event will be displayed in the default column
+  /// * Used to organize events into specific columns (e.g., 'work', 'personal')
+  /// * Helps in creating separate timelines for different event categories
   final String? columnId;
 
   /// Creates a new event with updated properties.
   ///
-  /// Only specify the properties you want to change.
-  /// All other properties will be copied from the original event.
+  /// This method creates a new event instance with the specified properties
+  /// updated while keeping all other properties the same as the original event.
+  ///
+  /// Example:
+  /// ```dart
+  /// final updatedEvent = event.copyWith(
+  ///   title: 'Updated Meeting Title',
+  ///   color: Colors.red,
+  /// );
+  /// ```
   CalendarEvent copyWith({
     String? title,
     DateTime? startTime,
     DateTime? endTime,
+    String? id,
     Color? color,
     String? description,
     String? columnId,
@@ -69,6 +107,7 @@ class CalendarEvent {
       title: title ?? this.title,
       startTime: startTime ?? this.startTime,
       endTime: endTime ?? this.endTime,
+      id: id ?? this.id,
       color: color ?? this.color,
       description: description ?? this.description,
       columnId: columnId ?? this.columnId,
@@ -82,6 +121,7 @@ class CalendarEvent {
         other.title == title &&
         other.startTime == startTime &&
         other.endTime == endTime &&
+        other.id == id &&
         other.color == color &&
         other.description == description &&
         other.columnId == columnId;
@@ -89,6 +129,6 @@ class CalendarEvent {
 
   @override
   int get hashCode {
-    return Object.hash(title, startTime, endTime, color, description, columnId);
+    return Object.hash(title, startTime, endTime, id, color, description, columnId);
   }
 }
