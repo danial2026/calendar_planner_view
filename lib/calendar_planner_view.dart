@@ -46,6 +46,7 @@ export 'src/time_labels.dart';
 /// CalendarPlannerView(
 ///   events: myEvents,
 ///   onEventTap: (event) => print('Event tapped: $event'),
+///   onDateChanged: (date) => print('Date changed: $date'),
 ///   datePickerPosition: DatePickerPosition.top,
 ///   showStickyTimeLabels: true,
 /// )
@@ -54,6 +55,12 @@ export 'src/time_labels.dart';
 /// CalendarPlannerView(
 ///   events: myEvents,
 ///   onEventTap: (event) => print('Event tapped: $event'),
+///   onDateChanged: (date) {
+///     // Update your app's state with the new date
+///     setState(() => selectedDate = date);
+///     // Optionally fetch events for the new date
+///     fetchEventsForDate(date);
+///   },
 ///   datePickerPosition: DatePickerPosition.modal,
 ///   showStickyTimeLabels: true,
 ///   startHour: 8,
@@ -88,6 +95,7 @@ export 'src/time_labels.dart';
 /// * **Custom Event Builders**: Create custom event displays
 /// * **Time Range Control**: Set custom start and end hours
 /// * **Event Indicators**: Visual dots for dates with events
+/// * **Date Change Callbacks**: Respond to date selection changes
 ///
 /// ## Multi-column Layout
 /// The calendar planner supports organizing events into multiple columns:
@@ -97,6 +105,13 @@ export 'src/time_labels.dart';
 /// * Visual column dividers
 /// * Minimum 2 columns, maximum 10 columns
 /// * Events without columnId use default column
+///
+/// ## Callbacks
+/// The widget provides several callbacks for handling user interactions:
+/// * `onEventTap`: Triggered when an event is tapped
+/// * `onDateChanged`: Triggered when the selected date changes, which can occur when:
+///   - User selects a new date from the calendar picker
+///   - User clicks the "Today" button
 ///
 /// ## Dependencies
 /// * Flutter SDK

@@ -63,6 +63,7 @@ class CalendarPlannerView extends HookWidget {
     super.key,
     required this.events,
     this.onEventTap,
+    this.onDateChanged,
     this.datePickerPosition = DatePickerPosition.top,
     this.startHour = 0,
     this.endHour = 24,
@@ -125,6 +126,10 @@ class CalendarPlannerView extends HookWidget {
   /// Callback when an event is tapped.
   /// Provides the tapped event for handling user interaction.
   final void Function(CalendarEvent)? onEventTap;
+
+  /// Callback when the date is changed.
+  /// Provides the selected date for handling user interaction.
+  final void Function(DateTime)? onDateChanged;
 
   /// Position of the date picker.
   /// - [DatePickerPosition.top]: Always visible above the timeline
@@ -522,6 +527,7 @@ class CalendarPlannerView extends HookWidget {
                                   selectedDate: selectedDate.value,
                                   onDateChanged: (date) {
                                     selectedDate.value = date;
+                                    onDateChanged?.call(date);
                                     Navigator.pop(context);
                                   },
                                   displayMode: DatePickerDisplayMode.inline,
@@ -580,7 +586,10 @@ class CalendarPlannerView extends HookWidget {
         if (datePickerPosition == DatePickerPosition.top)
           FlexibleDatePicker(
             selectedDate: selectedDate.value,
-            onDateChanged: (date) => selectedDate.value = date,
+            onDateChanged: (date) {
+              selectedDate.value = date;
+              onDateChanged?.call(date);
+            },
             displayMode: DatePickerDisplayMode.inline,
             calendarView: viewType.value == CalendarViewType.month ? CalendarFormat.month : CalendarFormat.week,
             dayStyle: datePickerStyle,

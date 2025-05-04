@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.11
+
+* Enhanced callback documentation with detailed examples and usage scenarios
+* Added dedicated callbacks section to library documentation
+
 ## 0.1.10
 
 * Added optional ID field to events for better tracking and persistence
