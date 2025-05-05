@@ -21,6 +21,12 @@ import 'models/event_utils.dart';
 /// - Custom styling for all components
 /// - Animated modal dialog for date selection
 /// - Responsive design for different screen sizes
+/// - Multi-column layout support
+/// - Customizable time labels
+/// - Current hour highlighting
+/// - Current time indicator
+/// - Event overlap handling
+/// - Theme-aware styling
 ///
 /// The widget is built with a modular architecture:
 /// - `FlexibleDatePicker`: Handles date selection with customizable appearance
@@ -37,6 +43,11 @@ import 'models/event_utils.dart';
 ///   datePickerPosition: DatePickerPosition.top,
 ///   showDayTitle: true,
 ///   enableViewToggle: true,
+///   showCurrentTimeIndicator: true,
+///   columns: [
+///     (id: 'col1', title: 'Column 1'),
+///     (id: 'col2', title: 'Column 2'),
+///   ],
 /// )
 /// ```
 class CalendarPlannerView extends HookWidget {
@@ -59,6 +70,11 @@ class CalendarPlannerView extends HookWidget {
   /// - Support for overlapping events
   /// - Custom event builders
   /// - Responsive layout
+  /// - Multi-column support with customizable titles
+  /// - Current hour highlighting
+  /// - Current time indicator
+  /// - Custom time label formatting
+  /// - Theme-aware styling
   const CalendarPlannerView({
     super.key,
     required this.events,
@@ -114,8 +130,12 @@ class CalendarPlannerView extends HookWidget {
     this.titleTextStyle,
     this.timeTextStyle,
     this.descriptionTextStyle,
+    this.showCurrentTimeIndicator,
     this.timeLabelWidth = 45,
+    this.highlightCurrentHour = false,
+    this.customTimeLabelBuilder,
     this.columns = const [],
+    this.customColumnBackgroundColor,
     this.scrollController,
   });
 
@@ -152,6 +172,9 @@ class CalendarPlannerView extends HookWidget {
 
   /// Text style for the event description
   final TextStyle? descriptionTextStyle;
+
+  /// Whether to show the current time indicator in the timeline.
+  final bool? showCurrentTimeIndicator;
 
   /// Custom builder for event widgets in the timeline.
   /// Allows complete customization of event appearance and behavior.
@@ -346,9 +369,21 @@ class CalendarPlannerView extends HookWidget {
   /// Controls the appearance of the "Today" button text.
   final TextStyle? modalTodayButtonTextStyle;
 
+  /// Whether to highlight the current hour.
+  /// Controls whether the current hour is highlighted in the timeline.
+  final bool highlightCurrentHour;
+
+  /// Custom builder for time labels.
+  /// Allows customizing the time labels in the timeline.
+  final String Function(DateTime)? customTimeLabelBuilder;
+
   /// Width of the time labels.
   /// Controls the width of the time labels in the timeline.
   final double timeLabelWidth;
+
+  /// Background color for columns.
+  /// Controls the background color of the columns in the multi-column layout.
+  final Color? customColumnBackgroundColor;
 
   /// Style for column titles.
   /// Controls the appearance of column titles in the multi-column layout.
@@ -664,7 +699,7 @@ class CalendarPlannerView extends HookWidget {
               Container(
                 height: 48,
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.surface,
+                  color: customColumnBackgroundColor ?? Colors.transparent,
                   border: Border(
                     bottom: BorderSide(
                       color: theme.colorScheme.outlineVariant,
@@ -713,6 +748,8 @@ class CalendarPlannerView extends HookWidget {
                     child: TimeLabels(
                       startHour: startHour,
                       endHour: endHour,
+                      highlightCurrentHour: highlightCurrentHour,
+                      customTimeLabelBuilder: customTimeLabelBuilder,
                       style: timeLabelStyle,
                     ),
                   ),
@@ -729,6 +766,7 @@ class CalendarPlannerView extends HookWidget {
                       titleTextStyle: titleTextStyle,
                       timeTextStyle: timeTextStyle,
                       descriptionTextStyle: descriptionTextStyle,
+                      showCurrentTimeIndicator: showCurrentTimeIndicator,
                     ),
                   ),
                 ],

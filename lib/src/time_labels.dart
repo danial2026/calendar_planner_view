@@ -3,7 +3,28 @@ import 'package:flutter/material.dart';
 /// Displays time labels for the calendar timeline.
 ///
 /// Shows hourly time markers that can be customized with different styles
-/// and highlights the current hour if specified.
+/// and highlights the current hour if specified. Supports custom time label
+/// formatting through a builder function.
+///
+/// Features:
+/// - Configurable time range (start and end hours)
+/// - Current hour highlighting
+/// - Custom time label formatting
+/// - Responsive layout
+/// - Theme-aware styling
+/// - Automatic height calculation
+/// - Flexible positioning
+///
+/// Example:
+/// ```dart
+/// TimeLabels(
+///   startHour: 8,
+///   endHour: 18,
+///   highlightCurrentHour: true,
+///   style: TextStyle(fontSize: 12),
+///   customTimeLabelBuilder: (time) => '${time.hour}:00',
+/// )
+/// ```
 class TimeLabels extends StatelessWidget {
   /// Creates time labels for the calendar timeline.
   ///
@@ -12,7 +33,7 @@ class TimeLabels extends StatelessWidget {
   /// TimeLabels(
   ///   startHour: 8,
   ///   endHour: 18,
-  ///   isCurrentHourAndDay: true,
+  ///   highlightCurrentHour: true,
   ///   style: TextStyle(fontSize: 12),
   /// )
   /// ```
@@ -20,7 +41,8 @@ class TimeLabels extends StatelessWidget {
     super.key,
     this.startHour = 0,
     this.endHour = 24,
-    this.isCurrentHourAndDay = false,
+    this.highlightCurrentHour = false,
+    this.customTimeLabelBuilder,
     this.style,
   });
 
@@ -31,7 +53,10 @@ class TimeLabels extends StatelessWidget {
   final int endHour;
 
   /// Whether to highlight the current hour (if viewing today)
-  final bool isCurrentHourAndDay;
+  final bool highlightCurrentHour;
+
+  /// Optional custom builder for time labels
+  final String Function(DateTime)? customTimeLabelBuilder;
 
   /// Optional custom style for time labels
   final TextStyle? style;
@@ -64,10 +89,10 @@ class TimeLabels extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        time.hour.toString(),
+                        customTimeLabelBuilder?.call(time) ?? time.hour.toString(),
                         style: (style ?? theme.textTheme.bodyMedium)?.copyWith(
-                          color: isCurrentHourAndDay ? Colors.white : Colors.grey[400],
-                          fontWeight: isCurrentHourAndDay ? FontWeight.bold : null,
+                          color: highlightCurrentHour ? Colors.white : Colors.grey[400],
+                          fontWeight: highlightCurrentHour ? FontWeight.bold : null,
                         ),
                       ),
                     ),

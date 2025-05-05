@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.12
+
+* Added current time indicator in timeline view
+* Enhanced event overlap handling with smart positioning
+* Improved theme-aware styling across all components
+* Added customizable time label formatting
+
 ## 0.1.11
 
 * Enhanced callback documentation with detailed examples and usage scenarios

@@ -15,6 +15,9 @@ import 'models/event_model.dart';
 /// - Multi-column layout support with column-specific events
 /// - Automatic column width calculation
 /// - Column dividers for visual separation
+/// - Event overlap handling with smart positioning
+/// - Customizable event card appearance
+/// - Theme-aware styling
 ///
 /// Example:
 /// ```dart
@@ -28,6 +31,7 @@ import 'models/event_model.dart';
 ///     (id: 'work', title: 'Work'),
 ///     (id: 'personal', title: 'Personal'),
 ///   ],
+///   showCurrentTimeIndicator: true,
 ///   eventBuilder: (context, event, ...) => CustomEventCard(...),
 /// )
 /// ```
@@ -50,6 +54,12 @@ class EventList extends StatelessWidget {
   /// - [timeTextStyle]: Custom text style for the event time
   /// - [descriptionTextStyle]: Custom text style for the event description
   ///
+  /// Event display:
+  /// - [showCurrentTimeIndicator]: Shows current time line for today's events
+  /// - [eventBuilder]: Custom builder for event display
+  /// - Events with same start time are shown side by side
+  /// - Overlapping events are automatically positioned
+  ///
   /// Scrolling:
   /// - [scrollController]: Optional controller for timeline scrolling
   /// - [onScroll]: Callback for scroll position changes
@@ -57,6 +67,7 @@ class EventList extends StatelessWidget {
     super.key,
     required this.events,
     required this.onEventTap,
+    required this.selectedDate,
     this.startHour = 0,
     this.endHour = 24,
     this.titleTextStyle,
@@ -65,8 +76,8 @@ class EventList extends StatelessWidget {
     this.eventBuilder,
     this.scrollController,
     this.onScroll,
-    required this.selectedDate,
     this.columns = const [],
+    this.showCurrentTimeIndicator = true,
   });
 
   /// Events to display in the timeline
@@ -126,6 +137,9 @@ class EventList extends StatelessWidget {
 
   /// Date being displayed in the timeline
   final DateTime selectedDate;
+
+  /// Whether to show the current time indicator
+  final bool? showCurrentTimeIndicator;
 
   /// List of column configurations for multi-column layout
   /// Each column has an id and optional title
@@ -229,7 +243,8 @@ class EventList extends StatelessWidget {
                   ),
 
                 // Current time indicator (only for today)
-                if (events.isNotEmpty && selectedDate.year == now.year && selectedDate.month == now.month && selectedDate.day == now.day)
+                if (showCurrentTimeIndicator == true &&
+                    (events.isNotEmpty && selectedDate.year == now.year && selectedDate.month == now.month && selectedDate.day == now.day))
                   Positioned(
                     top: ((now.hour - startHour) * 60 + now.minute) * minuteHeight,
                     left: 0,
