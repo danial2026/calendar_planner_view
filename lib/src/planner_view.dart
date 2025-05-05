@@ -33,6 +33,10 @@ import 'models/event_utils.dart';
 ///   - Calendar container styling
 ///   - Date range constraints
 ///   - Header styling
+///   - Container colors for all states:
+///     - Today, selected, weekend, and holiday dates
+///     - Current and outside month dates
+///     - Disabled dates and range selection
 ///
 /// The widget is built with a modular architecture:
 /// - `FlexibleDatePicker`: Handles date selection with customizable appearance
@@ -54,6 +58,10 @@ import 'models/event_utils.dart';
 ///     (id: 'col1', title: 'Column 1'),
 ///     (id: 'col2', title: 'Column 2'),
 ///   ],
+///   // Custom colors for different states
+///   todayContainerColor: Colors.blue.withOpacity(0.2),
+///   selectedContainerColor: Colors.blue,
+///   weekendContainerColor: Colors.grey.withOpacity(0.1),
 /// )
 /// ```
 class CalendarPlannerView extends HookWidget {
@@ -166,6 +174,26 @@ class CalendarPlannerView extends HookWidget {
     this.minDate,
     this.maxDate,
     this.headerStyle,
+    this.isTodayHighlighted = true,
+    this.canMarkersOverflow = true,
+    this.outsideDaysVisible = true,
+    this.markersMaxCount = 4,
+    this.markerSizeScale = 0.2,
+    this.markersAnchor = 0.7,
+    this.highlightWeekends = true,
+    this.highlightHolidays = true,
+    this.showWeekNumbers = true,
+    this.highlightCurrentMonth = true,
+    this.todayContainerColor,
+    this.selectedContainerColor,
+    this.weekendContainerColor,
+    this.holidayContainerColor,
+    this.currentMonthContainerColor,
+    this.outsideMonthContainerColor,
+    this.disabledContainerColor,
+    this.rangeHighlightColor,
+    this.rangeStartContainerColor,
+    this.rangeEndContainerColor,
   });
 
   /// List of events to display in the calendar.
@@ -496,6 +524,66 @@ class CalendarPlannerView extends HookWidget {
   /// Custom header styling
   final HeaderStyle? headerStyle;
 
+  /// Whether to highlight today's date
+  final bool isTodayHighlighted;
+
+  /// Whether event markers can overflow cell boundaries
+  final bool canMarkersOverflow;
+
+  /// Whether to show days outside the current month
+  final bool outsideDaysVisible;
+
+  /// Maximum number of event markers to display per day
+  final int markersMaxCount;
+
+  /// Scale factor for event marker size relative to cell size
+  final double markerSizeScale;
+
+  /// Vertical anchor point for event markers (0.0 to 1.0)
+  final double markersAnchor;
+
+  /// Whether to show weekend days with different styling
+  final bool highlightWeekends;
+
+  /// Whether to show holidays with different styling
+  final bool highlightHolidays;
+
+  /// Whether to show week numbers in month view
+  final bool showWeekNumbers;
+
+  /// Whether to show the current month's days in a different style
+  final bool highlightCurrentMonth;
+
+  /// Color for today's date container
+  final Color? todayContainerColor;
+
+  /// Color for selected date container
+  final Color? selectedContainerColor;
+
+  /// Color for weekend date containers
+  final Color? weekendContainerColor;
+
+  /// Color for holiday date containers
+  final Color? holidayContainerColor;
+
+  /// Color for current month date containers
+  final Color? currentMonthContainerColor;
+
+  /// Color for outside month date containers
+  final Color? outsideMonthContainerColor;
+
+  /// Color for disabled date containers
+  final Color? disabledContainerColor;
+
+  /// Color for range selection highlight
+  final Color? rangeHighlightColor;
+
+  /// Color for range start date container
+  final Color? rangeStartContainerColor;
+
+  /// Color for range end date container
+  final Color? rangeEndContainerColor;
+
   String _formattedDate(DateTime date) {
     return CalendarDateUtils.formatDate(date, format: dateFormat, locale: locale);
   }
@@ -704,6 +792,26 @@ class CalendarPlannerView extends HookWidget {
                                   minDate: minDate,
                                   maxDate: maxDate,
                                   headerStyle: headerStyle,
+                                  isTodayHighlighted: isTodayHighlighted,
+                                  canMarkersOverflow: canMarkersOverflow,
+                                  outsideDaysVisible: outsideDaysVisible,
+                                  markersMaxCount: markersMaxCount,
+                                  markerSizeScale: markerSizeScale,
+                                  markersAnchor: markersAnchor,
+                                  highlightWeekends: highlightWeekends,
+                                  highlightHolidays: highlightHolidays,
+                                  showWeekNumbers: showWeekNumbers,
+                                  highlightCurrentMonth: highlightCurrentMonth,
+                                  todayContainerColor: todayContainerColor,
+                                  selectedContainerColor: selectedContainerColor,
+                                  weekendContainerColor: weekendContainerColor,
+                                  holidayContainerColor: holidayContainerColor,
+                                  currentMonthContainerColor: currentMonthContainerColor,
+                                  outsideMonthContainerColor: outsideMonthContainerColor,
+                                  disabledContainerColor: disabledContainerColor,
+                                  rangeHighlightColor: rangeHighlightColor,
+                                  rangeStartContainerColor: rangeStartContainerColor,
+                                  rangeEndContainerColor: rangeEndContainerColor,
                                 ),
                               ),
                             ],
@@ -788,6 +896,26 @@ class CalendarPlannerView extends HookWidget {
             minDate: minDate,
             maxDate: maxDate,
             headerStyle: headerStyle,
+            isTodayHighlighted: isTodayHighlighted,
+            canMarkersOverflow: canMarkersOverflow,
+            outsideDaysVisible: outsideDaysVisible,
+            markersMaxCount: markersMaxCount,
+            markerSizeScale: markerSizeScale,
+            markersAnchor: markersAnchor,
+            highlightWeekends: highlightWeekends,
+            highlightHolidays: highlightHolidays,
+            showWeekNumbers: showWeekNumbers,
+            highlightCurrentMonth: highlightCurrentMonth,
+            todayContainerColor: todayContainerColor,
+            selectedContainerColor: selectedContainerColor,
+            weekendContainerColor: weekendContainerColor,
+            holidayContainerColor: holidayContainerColor,
+            currentMonthContainerColor: currentMonthContainerColor,
+            outsideMonthContainerColor: outsideMonthContainerColor,
+            disabledContainerColor: disabledContainerColor,
+            rangeHighlightColor: rangeHighlightColor,
+            rangeStartContainerColor: rangeStartContainerColor,
+            rangeEndContainerColor: rangeEndContainerColor,
           )
         else
           FlexibleDatePicker(
@@ -835,6 +963,26 @@ class CalendarPlannerView extends HookWidget {
             minDate: minDate,
             maxDate: maxDate,
             headerStyle: headerStyle,
+            isTodayHighlighted: isTodayHighlighted,
+            canMarkersOverflow: canMarkersOverflow,
+            outsideDaysVisible: outsideDaysVisible,
+            markersMaxCount: markersMaxCount,
+            markerSizeScale: markerSizeScale,
+            markersAnchor: markersAnchor,
+            highlightWeekends: highlightWeekends,
+            highlightHolidays: highlightHolidays,
+            showWeekNumbers: showWeekNumbers,
+            highlightCurrentMonth: highlightCurrentMonth,
+            todayContainerColor: todayContainerColor,
+            selectedContainerColor: selectedContainerColor,
+            weekendContainerColor: weekendContainerColor,
+            holidayContainerColor: holidayContainerColor,
+            currentMonthContainerColor: currentMonthContainerColor,
+            outsideMonthContainerColor: outsideMonthContainerColor,
+            disabledContainerColor: disabledContainerColor,
+            rangeHighlightColor: rangeHighlightColor,
+            rangeStartContainerColor: rangeStartContainerColor,
+            rangeEndContainerColor: rangeEndContainerColor,
           ),
         if (showDayTitle)
           Padding(

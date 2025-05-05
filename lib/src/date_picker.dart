@@ -21,6 +21,10 @@ import 'models/event_utils.dart';
 /// - Customizable cell shapes and borders
 /// - Week number display
 /// - Custom month and weekday names
+/// - Complete color customization for all states:
+///   - Today, selected, weekend, and holiday dates
+///   - Current and outside month dates
+///   - Disabled dates and range selection
 ///
 /// The widget is designed to work seamlessly with [CalendarPlannerView]
 /// but can also be used independently. It supports both inline and modal
@@ -38,6 +42,10 @@ import 'models/event_utils.dart';
 ///   dotColor: Colors.blue,
 ///   cellShape: BoxShape.circle,
 ///   locale: 'en_US',
+///   // Custom colors for different states
+///   todayContainerColor: Colors.blue.withOpacity(0.2),
+///   selectedContainerColor: Colors.blue,
+///   weekendContainerColor: Colors.grey.withOpacity(0.1),
 /// )
 /// ```
 class FlexibleDatePicker extends HookWidget {
@@ -105,6 +113,26 @@ class FlexibleDatePicker extends HookWidget {
     this.calendarShadowColor,
     this.calendarShadowBlurRadius = 4.0,
     this.calendarShadowOffset = const Offset(0, 2),
+    this.isTodayHighlighted = true,
+    this.canMarkersOverflow = true,
+    this.outsideDaysVisible = true,
+    this.markersMaxCount = 4,
+    this.markerSizeScale = 0.2,
+    this.markersAnchor = 0.7,
+    this.highlightWeekends = true,
+    this.highlightHolidays = true,
+    this.showWeekNumbers = true,
+    this.highlightCurrentMonth = true,
+    this.todayContainerColor,
+    this.selectedContainerColor,
+    this.weekendContainerColor,
+    this.holidayContainerColor,
+    this.currentMonthContainerColor,
+    this.outsideMonthContainerColor,
+    this.disabledContainerColor,
+    this.rangeHighlightColor,
+    this.rangeStartContainerColor,
+    this.rangeEndContainerColor,
   }) : super(key: key);
 
   /// Currently selected date
@@ -235,6 +263,66 @@ class FlexibleDatePicker extends HookWidget {
   /// Shadow offset for calendar
   final Offset calendarShadowOffset;
 
+  /// Whether to highlight today's date
+  final bool isTodayHighlighted;
+
+  /// Whether event markers can overflow cell boundaries
+  final bool canMarkersOverflow;
+
+  /// Whether to show days outside the current month
+  final bool outsideDaysVisible;
+
+  /// Maximum number of event markers to display per day
+  final int markersMaxCount;
+
+  /// Scale factor for event marker size relative to cell size
+  final double markerSizeScale;
+
+  /// Vertical anchor point for event markers (0.0 to 1.0)
+  final double markersAnchor;
+
+  /// Whether to show weekend days with different styling
+  final bool highlightWeekends;
+
+  /// Whether to show holidays with different styling
+  final bool highlightHolidays;
+
+  /// Whether to show week numbers in month view
+  final bool showWeekNumbers;
+
+  /// Whether to show the current month's days in a different style
+  final bool highlightCurrentMonth;
+
+  /// Color for today's date container
+  final Color? todayContainerColor;
+
+  /// Color for selected date container
+  final Color? selectedContainerColor;
+
+  /// Color for weekend date containers
+  final Color? weekendContainerColor;
+
+  /// Color for holiday date containers
+  final Color? holidayContainerColor;
+
+  /// Color for current month date containers
+  final Color? currentMonthContainerColor;
+
+  /// Color for outside month date containers
+  final Color? outsideMonthContainerColor;
+
+  /// Color for disabled date containers
+  final Color? disabledContainerColor;
+
+  /// Color for range selection highlight
+  final Color? rangeHighlightColor;
+
+  /// Color for range start date container
+  final Color? rangeStartContainerColor;
+
+  /// Color for range end date container
+  final Color? rangeEndContainerColor;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -285,6 +373,68 @@ class FlexibleDatePicker extends HookWidget {
       theme,
       cellShape: cellShape,
       cellBorderRadius: cellBorderRadius,
+      isTodayHighlighted: isTodayHighlighted,
+      canMarkersOverflow: canMarkersOverflow,
+      outsideDaysVisible: outsideDaysVisible,
+      markersMaxCount: markersMaxCount,
+      markerSizeScale: markerSizeScale,
+      markersAnchor: markersAnchor,
+      weekendTextStyle: highlightWeekends ? null : dayNumberStyle,
+      holidayTextStyle: highlightHolidays ? null : dayNumberStyle,
+      weekNumberTextStyle: showWeekNumbers ? weekNumberStyle : null,
+      outsideTextStyle: highlightCurrentMonth ? null : dayNumberStyle,
+      todayDecoration: BoxDecoration(
+        color: todayContainerColor ?? theme.colorScheme.primary.withAlpha(51),
+        shape: cellShape,
+        borderRadius: cellShape == BoxShape.rectangle ? cellBorderRadius : null,
+      ),
+      selectedDecoration: BoxDecoration(
+        color: selectedContainerColor ?? theme.colorScheme.primary,
+        shape: cellShape,
+        borderRadius: cellShape == BoxShape.rectangle ? cellBorderRadius : null,
+      ),
+      weekendDecoration: BoxDecoration(
+        color: weekendContainerColor,
+        shape: cellShape,
+        borderRadius: cellShape == BoxShape.rectangle ? cellBorderRadius : null,
+      ),
+      holidayDecoration: BoxDecoration(
+        color: holidayContainerColor,
+        border: Border.fromBorderSide(
+          BorderSide(
+            color: theme.colorScheme.primary.withAlpha(153),
+            width: 1.4,
+          ),
+        ),
+        shape: cellShape,
+        borderRadius: cellShape == BoxShape.rectangle ? cellBorderRadius : null,
+      ),
+      defaultDecoration: BoxDecoration(
+        color: currentMonthContainerColor,
+        shape: cellShape,
+        borderRadius: cellShape == BoxShape.rectangle ? cellBorderRadius : null,
+      ),
+      outsideDecoration: BoxDecoration(
+        color: outsideMonthContainerColor,
+        shape: cellShape,
+        borderRadius: cellShape == BoxShape.rectangle ? cellBorderRadius : null,
+      ),
+      disabledDecoration: BoxDecoration(
+        color: disabledContainerColor,
+        shape: cellShape,
+        borderRadius: cellShape == BoxShape.rectangle ? cellBorderRadius : null,
+      ),
+      rangeHighlightColor: rangeHighlightColor ?? theme.colorScheme.primary.withAlpha(26),
+      rangeStartDecoration: BoxDecoration(
+        color: rangeStartContainerColor ?? theme.colorScheme.primary,
+        shape: cellShape,
+        borderRadius: cellShape == BoxShape.rectangle ? cellBorderRadius : null,
+      ),
+      rangeEndDecoration: BoxDecoration(
+        color: rangeEndContainerColor ?? theme.colorScheme.primary,
+        shape: cellShape,
+        borderRadius: cellShape == BoxShape.rectangle ? cellBorderRadius : null,
+      ),
     );
 
     return GestureDetector(

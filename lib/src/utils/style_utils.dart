@@ -1,3 +1,6 @@
+// Copyright 2019 Aleksander Woźniak
+// SPDX-License-Identifier: Apache-2.0
+
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -14,6 +17,7 @@ import 'package:table_calendar/table_calendar.dart';
 /// * Customizable shadows and borders
 /// * Flexible cell shapes and decorations
 /// * Pre-configured styles for headers, cells, and containers
+/// * Complete support for all TableCalendar styling options
 ///
 /// ## Usage
 /// ```dart
@@ -111,6 +115,22 @@ class CalendarStyleUtils {
   /// Constrains the width of the calendar modal dialog.
   static const double defaultModalMaxWidth = 400.0;
 
+  /// Default marker size scale for event dots.
+  /// Controls the proportion of event dot size relative to cell size.
+  static const double defaultMarkerSizeScale = 0.2;
+
+  /// Default markers anchor point.
+  /// Controls the vertical position of event markers.
+  static const double defaultMarkersAnchor = 0.7;
+
+  /// Default range highlight scale.
+  /// Controls the size of range selection highlight.
+  static const double defaultRangeHighlightScale = 1.0;
+
+  /// Default cell margin.
+  /// Controls the spacing between day cells.
+  static const EdgeInsets defaultCellMargin = EdgeInsets.all(6.0);
+
   /// Get default header style with theme-aware customization.
   ///
   /// Returns a [HeaderStyle] configured with the provided theme and optional
@@ -160,26 +180,188 @@ class CalendarStyleUtils {
   /// - Today's date styling
   /// - Event marker positioning
   /// - Cell shape customization
+  /// - Range selection styling
+  /// - Weekend and holiday styling
+  /// - Outside days styling
+  /// - Disabled days styling
   ///
   /// All parameters are optional and will fall back to theme defaults if not specified.
   static CalendarStyle getDefaultCalendarStyle(
     ThemeData theme, {
     required BoxShape cellShape,
     BorderRadius? cellBorderRadius,
+    bool isTodayHighlighted = true,
+    bool canMarkersOverflow = true,
+    bool outsideDaysVisible = true,
+    bool markersAutoAligned = true,
+    double? markerSize,
+    double markerSizeScale = 0.2,
+    double markersAnchor = 0.7,
+    double rangeHighlightScale = 1.0,
+    EdgeInsets? markerMargin,
+    AlignmentGeometry? markersAlignment,
+    int markersMaxCount = 4,
+    EdgeInsets? cellMargin,
+    EdgeInsets? cellPadding,
+    AlignmentGeometry? cellAlignment,
+    PositionedOffset? markersOffset,
+    Color? rangeHighlightColor,
+    Decoration? markerDecoration,
+    TextStyle? todayTextStyle,
+    Decoration? todayDecoration,
+    TextStyle? selectedTextStyle,
+    Decoration? selectedDecoration,
+    TextStyle? rangeStartTextStyle,
+    Decoration? rangeStartDecoration,
+    TextStyle? rangeEndTextStyle,
+    Decoration? rangeEndDecoration,
+    TextStyle? withinRangeTextStyle,
+    Decoration? withinRangeDecoration,
+    TextStyle? outsideTextStyle,
+    Decoration? outsideDecoration,
+    TextStyle? disabledTextStyle,
+    Decoration? disabledDecoration,
+    TextStyle? holidayTextStyle,
+    Decoration? holidayDecoration,
+    TextStyle? weekendTextStyle,
+    Decoration? weekendDecoration,
+    TextStyle? weekNumberTextStyle,
+    TextStyle? defaultTextStyle,
+    Decoration? defaultDecoration,
+    Decoration? rowDecoration,
+    TableBorder? tableBorder,
+    EdgeInsets? tablePadding,
+    TextFormatter? dayTextFormatter,
   }) {
     return CalendarStyle(
-      selectedDecoration: BoxDecoration(
+      isTodayHighlighted: isTodayHighlighted,
+      canMarkersOverflow: canMarkersOverflow,
+      outsideDaysVisible: outsideDaysVisible,
+      markersAutoAligned: markersAutoAligned,
+      markerSize: markerSize,
+      markerSizeScale: markerSizeScale,
+      markersAnchor: markersAnchor,
+      rangeHighlightScale: rangeHighlightScale,
+      markerMargin: markerMargin ?? const EdgeInsets.symmetric(horizontal: 0.3),
+      markersAlignment: markersAlignment ?? Alignment.bottomCenter,
+      markersMaxCount: markersMaxCount,
+      cellMargin: cellMargin ?? defaultCellMargin,
+      cellPadding: cellPadding ?? EdgeInsets.zero,
+      cellAlignment: cellAlignment ?? Alignment.center,
+      markersOffset: markersOffset ?? const PositionedOffset(),
+      rangeHighlightColor: rangeHighlightColor ?? const Color(0xFFBBDDFF),
+      markerDecoration: markerDecoration ??
+          BoxDecoration(
+            color: theme.colorScheme.onSurface,
+            shape: BoxShape.circle,
+          ),
+      todayTextStyle: todayTextStyle ??
+          TextStyle(
+            color: theme.colorScheme.onPrimary,
+            fontSize: 16.0,
+          ),
+      todayDecoration: todayDecoration ??
+          BoxDecoration(
+            color: theme.colorScheme.primary.withAlpha(51),
+            shape: cellShape,
+            borderRadius: cellShape == BoxShape.rectangle ? cellBorderRadius : null,
+          ),
+      selectedTextStyle: selectedTextStyle ??
+          TextStyle(
+            color: theme.colorScheme.onPrimary,
+            fontSize: 16.0,
+          ),
+      selectedDecoration: selectedDecoration ??
+          BoxDecoration(
+            color: theme.colorScheme.primary,
+            shape: cellShape,
+            borderRadius: cellShape == BoxShape.rectangle ? cellBorderRadius : null,
+          ),
+      rangeStartTextStyle: rangeStartTextStyle ??
+          TextStyle(
+            color: theme.colorScheme.onPrimary,
+            fontSize: 16.0,
+          ),
+      rangeStartDecoration: rangeStartDecoration ??
+          BoxDecoration(
+            color: theme.colorScheme.primary,
+            shape: cellShape,
+            borderRadius: cellShape == BoxShape.rectangle ? cellBorderRadius : null,
+          ),
+      rangeEndTextStyle: rangeEndTextStyle ??
+          TextStyle(
+            color: theme.colorScheme.onPrimary,
+            fontSize: 16.0,
+          ),
+      rangeEndDecoration: rangeEndDecoration ??
+          BoxDecoration(
         color: theme.colorScheme.primary,
         shape: cellShape,
         borderRadius: cellShape == BoxShape.rectangle ? cellBorderRadius : null,
       ),
-      todayDecoration: BoxDecoration(
-        color: theme.colorScheme.primary.withAlpha(51),
+      withinRangeTextStyle: withinRangeTextStyle ?? theme.textTheme.bodyMedium!,
+      withinRangeDecoration: withinRangeDecoration ??
+          BoxDecoration(
+            color: theme.colorScheme.primary.withAlpha(26),
+            shape: cellShape,
+            borderRadius: cellShape == BoxShape.rectangle ? cellBorderRadius : null,
+          ),
+      outsideTextStyle: outsideTextStyle ??
+          theme.textTheme.bodyMedium!.copyWith(
+            color: theme.colorScheme.onSurface.withAlpha(153),
+          ),
+      outsideDecoration: outsideDecoration ??
+          BoxDecoration(
+            shape: cellShape,
+            borderRadius: cellShape == BoxShape.rectangle ? cellBorderRadius : null,
+          ),
+      disabledTextStyle: disabledTextStyle ??
+          theme.textTheme.bodyMedium!.copyWith(
+            color: theme.colorScheme.onSurface.withAlpha(102),
+          ),
+      disabledDecoration: disabledDecoration ??
+          BoxDecoration(
+            shape: cellShape,
+            borderRadius: cellShape == BoxShape.rectangle ? cellBorderRadius : null,
+          ),
+      holidayTextStyle: holidayTextStyle ??
+          theme.textTheme.bodyMedium!.copyWith(
+            color: theme.colorScheme.primary,
+          ),
+      holidayDecoration: holidayDecoration ??
+          BoxDecoration(
+            border: Border.fromBorderSide(
+              BorderSide(
+                color: theme.colorScheme.primary.withAlpha(153),
+                width: 1.4,
+              ),
+            ),
+            shape: cellShape,
+            borderRadius: cellShape == BoxShape.rectangle ? cellBorderRadius : null,
+          ),
+      weekendTextStyle: weekendTextStyle ??
+          theme.textTheme.bodyMedium!.copyWith(
+            color: theme.colorScheme.onSurface.withAlpha(179),
+          ),
+      weekendDecoration: weekendDecoration ??
+          BoxDecoration(
+            shape: cellShape,
+            borderRadius: cellShape == BoxShape.rectangle ? cellBorderRadius : null,
+          ),
+      weekNumberTextStyle: weekNumberTextStyle ??
+          theme.textTheme.bodySmall!.copyWith(
+            color: theme.colorScheme.onSurface.withAlpha(102),
+          ),
+      defaultTextStyle: defaultTextStyle ?? theme.textTheme.bodyMedium!,
+      defaultDecoration: defaultDecoration ??
+          BoxDecoration(
         shape: cellShape,
         borderRadius: cellShape == BoxShape.rectangle ? cellBorderRadius : null,
       ),
-      markersAlignment: Alignment.bottomCenter,
-      markerMargin: const EdgeInsets.only(top: 8),
+      rowDecoration: rowDecoration ?? const BoxDecoration(),
+      tableBorder: tableBorder ?? const TableBorder(),
+      tablePadding: tablePadding ?? EdgeInsets.zero,
+      dayTextFormatter: dayTextFormatter,
     );
   }
 
