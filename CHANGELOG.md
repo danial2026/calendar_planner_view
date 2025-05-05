@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.13
+
+* Added complete FlexibleDatePicker customization support
+
 ## 0.1.12
 
 * Added current time indicator in timeline view

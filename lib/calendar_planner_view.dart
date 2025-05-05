@@ -25,7 +25,12 @@ export 'src/time_labels.dart';
 /// * Customizable event items with support for overlapping events
 /// * Material 3 design support with theme awareness
 /// * Light and dark mode support
-/// * Flexible date picker (top or modal)
+/// * Flexible date picker (top or modal) with complete customization:
+///   - Week number styling and layout
+///   - Chevron icon customization
+///   - Calendar container styling
+///   - Date range constraints
+///   - Header styling
 /// * Sticky time labels with current hour highlighting
 /// * Multi-column layout support
 /// * Event indicators with customizable shapes and colors
@@ -129,6 +134,12 @@ export 'src/time_labels.dart';
 ///   - "Today" button with icon
 ///   - Customizable styling
 ///   - Responsive layout
+///   - Complete customization options:
+///     - Week number styling and layout
+///     - Chevron icon customization
+///     - Calendar container styling
+///     - Date range constraints
+///     - Header styling
 ///
 /// ## Callbacks
 /// The widget provides several callbacks for handling user interactions:

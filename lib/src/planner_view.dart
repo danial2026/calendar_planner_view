@@ -27,6 +27,12 @@ import 'models/event_utils.dart';
 /// - Current time indicator
 /// - Event overlap handling
 /// - Theme-aware styling
+/// - Complete date picker customization:
+///   - Week number styling and layout
+///   - Chevron icon customization
+///   - Calendar container styling
+///   - Date range constraints
+///   - Header styling
 ///
 /// The widget is built with a modular architecture:
 /// - `FlexibleDatePicker`: Handles date selection with customizable appearance
@@ -99,6 +105,8 @@ class CalendarPlannerView extends HookWidget {
     this.weekdayLabelStyle,
     this.dayNumberStyle,
     this.locale = 'en',
+    this.customToggleColorBackground,
+    this.customToggleColor,
     this.weekNumberStyle,
     this.enableViewToggle = false,
     this.initialView = CalendarViewType.month,
@@ -137,6 +145,27 @@ class CalendarPlannerView extends HookWidget {
     this.columns = const [],
     this.customColumnBackgroundColor,
     this.scrollController,
+    this.weekNumberBackgroundColor,
+    this.weekNumberTextColor,
+    this.weekNumberBorderRadius,
+    this.weekNumberPadding,
+    this.weekNumberTextStyle,
+    this.weekNumberContainerStyle,
+    this.chevronIconColor,
+    this.chevronIconSize,
+    this.chevronIconPadding,
+    this.chevronIconStyle,
+    this.calendarPadding,
+    this.calendarMargin,
+    this.calendarBackgroundColor,
+    this.calendarBorderRadius,
+    this.calendarBorder,
+    this.calendarShadowColor,
+    this.calendarShadowBlurRadius,
+    this.calendarShadowOffset,
+    this.minDate,
+    this.maxDate,
+    this.headerStyle,
   });
 
   /// List of events to display in the calendar.
@@ -260,6 +289,14 @@ class CalendarPlannerView extends HookWidget {
   /// Locale for date formatting (e.g., 'en', 'es').
   /// Affects the language of dates and day names.
   final String locale;
+
+  /// Color for the toggle button text.
+  /// Controls the appearance of the text in the view toggle buttons.
+  final Color? customToggleColor;
+
+  /// Color for the toggle button background.
+  /// Controls the appearance of the background in the view toggle buttons.
+  final Color? customToggleColorBackground;
 
   /// Style for week numbers.
   /// Controls the appearance of week numbers in week view.
@@ -395,6 +432,69 @@ class CalendarPlannerView extends HookWidget {
   final List<({String id, String? title})> columns;
 
   final ScrollController? scrollController;
+
+  /// Background color for week number container
+  final Color? weekNumberBackgroundColor;
+
+  /// Text color for week number
+  final Color? weekNumberTextColor;
+
+  /// Border radius for week number container
+  final double? weekNumberBorderRadius;
+
+  /// Padding for week number container
+  final EdgeInsets? weekNumberPadding;
+
+  /// Text style for week number
+  final TextStyle? weekNumberTextStyle;
+
+  /// Container style for week number
+  final BoxDecoration? weekNumberContainerStyle;
+
+  /// Color for chevron icons
+  final Color? chevronIconColor;
+
+  /// Size of chevron icons
+  final double? chevronIconSize;
+
+  /// Padding for chevron icons
+  final EdgeInsets? chevronIconPadding;
+
+  /// Style for chevron icons
+  final IconThemeData? chevronIconStyle;
+
+  /// Padding for calendar
+  final EdgeInsets? calendarPadding;
+
+  /// Margin for calendar
+  final EdgeInsets? calendarMargin;
+
+  /// Background color for calendar
+  final Color? calendarBackgroundColor;
+
+  /// Border radius for calendar
+  final BorderRadius? calendarBorderRadius;
+
+  /// Border for calendar
+  final BoxBorder? calendarBorder;
+
+  /// Shadow color for calendar
+  final Color? calendarShadowColor;
+
+  /// Shadow blur radius for calendar
+  final double? calendarShadowBlurRadius;
+
+  /// Shadow offset for calendar
+  final Offset? calendarShadowOffset;
+
+  /// Earliest selectable date
+  final DateTime? minDate;
+
+  /// Latest selectable date
+  final DateTime? maxDate;
+
+  /// Custom header styling
+  final HeaderStyle? headerStyle;
 
   String _formattedDate(DateTime date) {
     return CalendarDateUtils.formatDate(date, format: dateFormat, locale: locale);
@@ -583,6 +683,27 @@ class CalendarPlannerView extends HookWidget {
                                   weekdayNames: weekdayNames,
                                   weekLabelText: weekLabelText,
                                   todayLabel: todayLabel,
+                                  weekNumberBackgroundColor: weekNumberBackgroundColor,
+                                  weekNumberTextColor: weekNumberTextColor,
+                                  weekNumberBorderRadius: weekNumberBorderRadius ?? 16.0,
+                                  weekNumberPadding: weekNumberPadding ?? const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                  weekNumberTextStyle: weekNumberTextStyle,
+                                  weekNumberContainerStyle: weekNumberContainerStyle,
+                                  chevronIconColor: chevronIconColor,
+                                  chevronIconSize: chevronIconSize ?? 24.0,
+                                  chevronIconPadding: chevronIconPadding ?? const EdgeInsets.all(8.0),
+                                  chevronIconStyle: chevronIconStyle,
+                                  calendarPadding: calendarPadding ?? const EdgeInsets.all(8.0),
+                                  calendarMargin: calendarMargin ?? const EdgeInsets.all(8.0),
+                                  calendarBackgroundColor: calendarBackgroundColor,
+                                  calendarBorderRadius: calendarBorderRadius,
+                                  calendarBorder: calendarBorder,
+                                  calendarShadowColor: calendarShadowColor,
+                                  calendarShadowBlurRadius: calendarShadowBlurRadius ?? 4.0,
+                                  calendarShadowOffset: calendarShadowOffset ?? const Offset(0, 2),
+                                  minDate: minDate,
+                                  maxDate: maxDate,
+                                  headerStyle: headerStyle,
                                 ),
                               ),
                             ],
@@ -601,9 +722,9 @@ class CalendarPlannerView extends HookWidget {
                     viewType.value = index == 0 ? CalendarViewType.month : CalendarViewType.week;
                   },
                   borderRadius: BorderRadius.circular(8),
-                  color: theme.colorScheme.onSurface.withAlpha(51),
-                  selectedColor: theme.colorScheme.onSurface,
-                  fillColor: theme.colorScheme.surfaceContainerHighest,
+                  color: customToggleColor ?? theme.colorScheme.onSurface.withAlpha(51),
+                  selectedColor: customToggleColor ?? theme.colorScheme.onSurface,
+                  fillColor: customToggleColorBackground ?? theme.colorScheme.surfaceContainerHighest,
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -646,6 +767,27 @@ class CalendarPlannerView extends HookWidget {
             onCalendarFormatChanged: (format) {
               viewType.value = format == CalendarFormat.month ? CalendarViewType.month : CalendarViewType.week;
             },
+            weekNumberBackgroundColor: weekNumberBackgroundColor,
+            weekNumberTextColor: weekNumberTextColor,
+            weekNumberBorderRadius: weekNumberBorderRadius ?? 16.0,
+            weekNumberPadding: weekNumberPadding ?? const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            weekNumberTextStyle: weekNumberTextStyle,
+            weekNumberContainerStyle: weekNumberContainerStyle,
+            chevronIconColor: chevronIconColor,
+            chevronIconSize: chevronIconSize ?? 24.0,
+            chevronIconPadding: chevronIconPadding ?? const EdgeInsets.all(8.0),
+            chevronIconStyle: chevronIconStyle,
+            calendarPadding: calendarPadding ?? const EdgeInsets.all(8.0),
+            calendarMargin: calendarMargin ?? const EdgeInsets.all(8.0),
+            calendarBackgroundColor: calendarBackgroundColor,
+            calendarBorderRadius: calendarBorderRadius,
+            calendarBorder: calendarBorder,
+            calendarShadowColor: calendarShadowColor,
+            calendarShadowBlurRadius: calendarShadowBlurRadius ?? 4.0,
+            calendarShadowOffset: calendarShadowOffset ?? const Offset(0, 2),
+            minDate: minDate,
+            maxDate: maxDate,
+            headerStyle: headerStyle,
           )
         else
           FlexibleDatePicker(
@@ -672,6 +814,27 @@ class CalendarPlannerView extends HookWidget {
             onCalendarFormatChanged: (format) {
               viewType.value = format == CalendarFormat.month ? CalendarViewType.month : CalendarViewType.week;
             },
+            weekNumberBackgroundColor: weekNumberBackgroundColor,
+            weekNumberTextColor: weekNumberTextColor,
+            weekNumberBorderRadius: weekNumberBorderRadius ?? 16.0,
+            weekNumberPadding: weekNumberPadding ?? const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            weekNumberTextStyle: weekNumberTextStyle,
+            weekNumberContainerStyle: weekNumberContainerStyle,
+            chevronIconColor: chevronIconColor,
+            chevronIconSize: chevronIconSize ?? 24.0,
+            chevronIconPadding: chevronIconPadding ?? const EdgeInsets.all(8.0),
+            chevronIconStyle: chevronIconStyle,
+            calendarPadding: calendarPadding ?? const EdgeInsets.all(8.0),
+            calendarMargin: calendarMargin ?? const EdgeInsets.all(8.0),
+            calendarBackgroundColor: calendarBackgroundColor,
+            calendarBorderRadius: calendarBorderRadius,
+            calendarBorder: calendarBorder,
+            calendarShadowColor: calendarShadowColor,
+            calendarShadowBlurRadius: calendarShadowBlurRadius ?? 4.0,
+            calendarShadowOffset: calendarShadowOffset ?? const Offset(0, 2),
+            minDate: minDate,
+            maxDate: maxDate,
+            headerStyle: headerStyle,
           ),
         if (showDayTitle)
           Padding(
