@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.16
+
+* Added customizable loading overlay with optional content visibility
+
 ## 0.1.15
 
 * Enhanced documentation for customTitleCalendarWidget with icon examples

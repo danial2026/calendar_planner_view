@@ -39,6 +39,7 @@ export 'src/time_labels.dart';
 /// * Current time indicator
 /// * Event overlap handling
 /// * Theme-aware styling
+/// * Loading overlay with customizable appearance
 ///
 /// ## Installation
 /// Add this to your package's `pubspec.yaml` file:
@@ -62,7 +63,7 @@ export 'src/time_labels.dart';
 ///   showCurrentTimeIndicator: true,
 /// )
 ///
-/// // Advanced usage with multi-column layout
+/// // Advanced usage with multi-column layout and loading overlay
 /// CalendarPlannerView(
 ///   events: myEvents,
 ///   onEventTap: (event) => print('Event tapped: $event'),
@@ -94,6 +95,13 @@ export 'src/time_labels.dart';
 ///     fontWeight: FontWeight.bold,
 ///   ),
 ///   customTitleCalendarWidget: Icon(Icons.calendar_month, color: Colors.blue),
+///   // Loading overlay configuration
+///   isLoading: true,
+///   loadingBuilder: (context) => Center(
+///     child: CircularProgressIndicator(color: Colors.blue),
+///   ),
+///   loadingOverlayColor: Colors.black12,
+///   showContentWhileLoading: false,
 /// )
 /// ```
 ///
@@ -115,6 +123,7 @@ export 'src/time_labels.dart';
 /// * **Current Time Indicator**: Shows current time line in the timeline
 /// * **Custom Time Labels**: Format time labels with custom builder
 /// * **Localization**: Support for different languages and date formats
+/// * **Loading Overlay**: Customizable loading state with optional content visibility
 ///
 /// ## Multi-column Layout
 /// The calendar planner supports organizing events into multiple columns:

@@ -37,6 +37,7 @@ import 'models/event_utils.dart';
 ///     - Today, selected, weekend, and holiday dates
 ///     - Current and outside month dates
 ///     - Disabled dates and range selection
+/// - Loading overlay with customizable appearance
 ///
 /// The widget is built with a modular architecture:
 /// - `FlexibleDatePicker`: Handles date selection with customizable appearance
@@ -62,6 +63,11 @@ import 'models/event_utils.dart';
 ///   todayContainerColor: Colors.blue.withOpacity(0.2),
 ///   selectedContainerColor: Colors.blue,
 ///   weekendContainerColor: Colors.grey.withOpacity(0.1),
+///   // Loading overlay customization
+///   isLoading: true,
+///   loadingBuilder: (context) => CircularProgressIndicator(),
+///   loadingOverlayColor: Colors.black54,
+///   showContentWhileLoading: false,
 /// )
 /// ```
 class CalendarPlannerView extends HookWidget {
@@ -195,6 +201,10 @@ class CalendarPlannerView extends HookWidget {
     this.rangeHighlightColor,
     this.rangeStartContainerColor,
     this.rangeEndContainerColor,
+    this.isLoading = false,
+    this.loadingBuilder,
+    this.loadingOverlayColor,
+    this.showContentWhileLoading = true,
   });
 
   /// List of events to display in the calendar.
@@ -589,32 +599,39 @@ class CalendarPlannerView extends HookWidget {
   /// Color for range end date container
   final Color? rangeEndContainerColor;
 
+  /// Whether the calendar is in a loading state
+  final bool isLoading;
+
+  /// Custom builder for the loading indicator
+  /// If not provided, defaults to a centered CircularProgressIndicator
+  final Widget Function(BuildContext)? loadingBuilder;
+
+  /// Color for the loading overlay
+  /// If not provided, defaults to Colors.black54
+  final Color? loadingOverlayColor;
+
+  /// Whether to show the calendar content while loading
+  /// If false, only the loading indicator will be shown
+  final bool showContentWhileLoading;
+
   String _formattedDate(DateTime date) {
     return CalendarDateUtils.formatDate(date, format: dateFormat, locale: locale);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final selectedDate = useState(DateTime.now());
-    final scrollController = useScrollController();
-    final now = DateTime.now();
-    final midnightToday = CalendarDateUtils.getMidnight(now);
-    final midnightSelected = CalendarDateUtils.getMidnight(selectedDate.value);
-    final dayDifference = CalendarDateUtils.getDayDifference(midnightToday, midnightSelected);
-
-    final isToday = dayDifference == 0;
-    final isTomorrow = dayDifference == 1;
-    final isYesterday = dayDifference == -1;
-
-    // Filter events for the selected date
-    final filteredEvents = useMemoized(() {
-      return EventUtils.filterEventsForDate(selectedDate.value, events);
-    }, [events, selectedDate.value]);
-
-    // State for week/month view (responsive)
-    final viewType = useState<CalendarViewType>(initialView);
-
+  Widget _buildContent(
+      BuildContext context,
+      ThemeData theme,
+      ValueNotifier<DateTime> selectedDate,
+      ScrollController scrollController,
+      DateTime now,
+      DateTime midnightToday,
+      DateTime midnightSelected,
+      int dayDifference,
+      bool isToday,
+      bool isTomorrow,
+      bool isYesterday,
+      List<CalendarEvent> filteredEvents,
+      ValueNotifier<CalendarViewType> viewType) {
     return Column(
       children: [
         // Main calendar title and toggle in a row
@@ -1091,6 +1108,63 @@ class CalendarPlannerView extends HookWidget {
             ),
           ),
         ),
+      ],
+    );
+  }
+
+  Widget _buildLoadingOverlay(BuildContext context, ThemeData theme) {
+    return Container(
+      color: loadingOverlayColor ?? Colors.black54,
+      child: Center(
+        child: loadingBuilder?.call(context) ??
+            CircularProgressIndicator(
+              color: theme.colorScheme.primary,
+            ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final selectedDate = useState(DateTime.now());
+    final scrollController = useScrollController();
+    final now = DateTime.now();
+    final midnightToday = CalendarDateUtils.getMidnight(now);
+    final midnightSelected = CalendarDateUtils.getMidnight(selectedDate.value);
+    final dayDifference = CalendarDateUtils.getDayDifference(midnightToday, midnightSelected);
+
+    final isToday = dayDifference == 0;
+    final isTomorrow = dayDifference == 1;
+    final isYesterday = dayDifference == -1;
+
+    // Filter events for the selected date
+    final filteredEvents = useMemoized(() {
+      return EventUtils.filterEventsForDate(selectedDate.value, events);
+    }, [events, selectedDate.value]);
+
+    // State for week/month view (responsive)
+    final viewType = useState<CalendarViewType>(initialView);
+
+    return Stack(
+      children: [
+        if (showContentWhileLoading || !isLoading)
+          _buildContent(
+            context,
+            theme,
+            selectedDate,
+            scrollController,
+            now,
+            midnightToday,
+            midnightSelected,
+            dayDifference,
+            isToday,
+            isTomorrow,
+            isYesterday,
+            filteredEvents,
+            viewType,
+          ),
+        if (isLoading) _buildLoadingOverlay(context, theme),
       ],
     );
   }
