@@ -188,7 +188,7 @@ class _CustomEventsDemoState extends State<CustomEventsDemo> {
         title: const Text('Custom Events Demo'),
       ),
       body: CalendarPlannerView(
-        events: mockEvents,
+        events: _loading ? [] : mockEvents,
         onEventTap: (event) => _onEventTap(context, event),
         eventBuilder: _customEventBuilder,
         datePickerPosition: DatePickerPosition.top,
