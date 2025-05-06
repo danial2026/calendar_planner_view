@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.15
+
+* Enhanced documentation for customTitleCalendarWidget with icon examples
+* Improved code examples in library documentation
+
 ## 0.1.14
 
 * Added container color customization for all calendar states

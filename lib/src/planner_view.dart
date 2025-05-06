@@ -116,6 +116,7 @@ class CalendarPlannerView extends HookWidget {
     this.customToggleColorBackground,
     this.customToggleColor,
     this.weekNumberStyle,
+    this.customTitleCalendarWidget,
     this.enableViewToggle = false,
     this.initialView = CalendarViewType.month,
     this.datePickerShape = BoxShape.circle,
@@ -329,6 +330,10 @@ class CalendarPlannerView extends HookWidget {
   /// Style for week numbers.
   /// Controls the appearance of week numbers in week view.
   final TextStyle? weekNumberStyle;
+
+  /// Custom widget for the calendar title.
+  /// Allows complete customization of the calendar title.
+  final Widget? customTitleCalendarWidget;
 
   /// Whether to show the view toggle button.
   /// Enables switching between month and week views.
@@ -822,6 +827,7 @@ class CalendarPlannerView extends HookWidget {
                   );
                 },
               ),
+              customTitleCalendarWidget ?? const SizedBox.shrink(),
               const Spacer(),
               if (enableViewToggle)
                 ToggleButtons(

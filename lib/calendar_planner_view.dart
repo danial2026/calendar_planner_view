@@ -93,6 +93,7 @@ export 'src/time_labels.dart';
 ///     color: Colors.black,
 ///     fontWeight: FontWeight.bold,
 ///   ),
+///   customTitleCalendarWidget: Icon(Icons.calendar_month, color: Colors.blue),
 /// )
 /// ```
 ///
