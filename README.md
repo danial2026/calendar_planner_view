@@ -2,15 +2,19 @@
 
 A customizable daily calendar planner view with time-based events and Material 3 design.
 
+
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-View%20Online-blue)](https://calendar-planner-view.pages.dev/)
 
+## Screenshots
+
+| ![Dropdown All View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/jp-dropdown-all-view.jpg) | ![Dropdown Meeting View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/jp-dropdown-meeting-view.jpg) |
+|------------------------------------|------------------------------------|
+| ![Dropdown Select View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/jp-dropdown-select-view.jpg) | ![Select Date](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/jp-select-date.jpg) |
+|------------------------------------|------------------------------------|
 | ![Month View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/basic-month-view.jpg) | ![Week View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/basic-week-view.jpg) |
 |------------------------------------|------------------------------------|
-
 | ![Select Date](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/select-date.jpg) | ![Multi Theme](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/select-theme.jpg) |
 |------------------------------------|------------------------------------|
-
-
 | ![Multi Column Month View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/multi-column-month-view.jpg) | ![Multi Column Week View](https://raw.githubusercontent.com/danial2026/calendar_planner_view/main/assets/multi-column-week-view.jpg) |
 |------------------------------------|------------------------------------|
 
