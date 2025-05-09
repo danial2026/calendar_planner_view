@@ -21,6 +21,7 @@ For more information about the calendar_planner_view package, please refer to th
 ## Localization Examples
 
 The example includes:
+
 - Basic calendar implementation
 - Multi-column layout demo
 - Theme customization
@@ -28,7 +29,6 @@ The example includes:
 - Custom event styling with different visual effects
 - Loading overlay demonstration
 - Responsive layouts for various screen sizes
-
 
 The example app includes demos with full internationalization support:
 
