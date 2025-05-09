@@ -79,9 +79,9 @@
 
 * Update package version to 0.1.4
 * Upgrade dependencies to latest compatible versions:
-  - table_calendar: ^3.2.0
-  - intl: ^0.20.2
-  - flutter_hooks: ^0.21.2
+  table_calendar: ^3.2.0
+  intl: ^0.20.2
+  flutter_hooks: ^0.21.2
 * Modified README.md to use 'any' version specifier for calendar_planner_view dependency
   allowing greater flexibility for consumers
 
