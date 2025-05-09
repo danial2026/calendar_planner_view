@@ -40,22 +40,20 @@
 /// * Visual column dividers
 ///
 /// ## Usage
-/// ```dart
-/// // Configure event dot shape
+/// Configure event dot shape:
 /// final dotShape = EventDotShape.circle;
 ///
-/// // Set calendar view type
+/// Set calendar view type:
 /// final viewType = CalendarViewType.week;
 ///
-/// // Configure date picker position
+/// Configure date picker position:
 /// final pickerPosition = DatePickerPosition.modal;
 ///
-/// // Define multi-column layout
+/// Define multi-column layout
 /// final columns = [
 ///   (id: 'work', title: 'Work'),
 ///   (id: 'personal', title: 'Personal'),
 /// ];
-/// ```
 
 /// Event dot shape in the calendar view
 enum EventDotShape {
@@ -94,4 +92,20 @@ enum DatePickerDisplayMode {
 
   /// Date picker displayed as a popup
   popup
+}
+
+/// Controls how column titles are displayed in multi-column layout
+enum ColumnLabelType {
+  /// Display the titles as column headers above the timeline
+  /// - Good for showing all columns simultaneously
+  /// - Works well with shorter column titles
+  /// - Supports international text including RTL languages
+  columnHeaders,
+
+  /// Display the titles in a dropdown menu for column selection
+  /// - Better for mobile or limited screen width
+  /// - Allows for longer column titles
+  /// - Customizable appearance with border and padding
+  /// - Supports international text with proper alignment
+  dropdown
 }

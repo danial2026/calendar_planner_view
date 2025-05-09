@@ -5,7 +5,8 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'blocs/theme_bloc.dart';
 import 'demos/basic_demo.dart';
 import 'demos/multi_column_demo.dart';
-import 'demos/custom_events_demo.dart';
+import 'demos/custom_turkish_events_demo.dart';
+import 'demos/custom_japanese_events_demo.dart';
 import 'demos/theme_demo.dart';
 import 'demos/compact_demo.dart';
 import 'demos/minimal_demo.dart';
@@ -94,16 +95,18 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final currentTheme = context.watch<ThemeBloc>().state.theme;
     final width = MediaQuery.of(context).size.width;
 
     final listView = MediaQuery.of(context).size.width > 760 || MediaQuery.of(context).size.width < 470;
 
     if (width < 320) {
       return Scaffold(
+        appBar: AppBar(
+          title: const Text('Calendar Planner View Demo'),
+        ),
         body: Center(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(12.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -135,6 +138,18 @@ class HomePage extends StatelessWidget {
 
     final demos = [
       (
+        title: 'Custom Turkish Events Demo',
+        description: 'Calendar with custom event styling and interactions',
+        icon: Icons.event,
+        route: const CustomTurkishEventsDemo(),
+      ),
+      (
+        title: 'Custom Japanese Events Demo',
+        description: 'Calendar with custom event styling and interactions',
+        icon: Icons.event,
+        route: const CustomJapaneseEventsDemo(),
+      ),
+      (
         title: 'Basic Demo',
         description: 'Simple calendar view with basic events',
         icon: Icons.calendar_today,
@@ -145,12 +160,6 @@ class HomePage extends StatelessWidget {
         description: 'Calendar with multiple columns for different event types',
         icon: Icons.view_column,
         route: const MultiColumnDemo(),
-      ),
-      (
-        title: 'Custom Events Demo',
-        description: 'Calendar with custom event styling and interactions',
-        icon: Icons.event,
-        route: const CustomEventsDemo(),
       ),
       (
         title: 'Theme Demo',
@@ -175,12 +184,6 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Calendar Planner View Demo'),
-        actions: [
-          IconButton(
-            icon: Icon(currentTheme.icon),
-            onPressed: () => _showThemeSelector(context),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -263,6 +266,24 @@ class HomePage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 4),
                     children: [
                       _DemoCard(
+                        title: 'Custom Turkish Events Demo',
+                        description: 'Calendar with custom event styling and interactions',
+                        icon: Icons.event,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const CustomTurkishEventsDemo()),
+                        ),
+                      ),
+                      _DemoCard(
+                        title: 'Custom Japanese Events Demo',
+                        description: 'Calendar with custom event styling and interactions',
+                        icon: Icons.event,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const CustomJapaneseEventsDemo()),
+                        ),
+                      ),
+                      _DemoCard(
                         title: 'Basic Demo',
                         description: 'Simple calendar view with basic events',
                         icon: Icons.calendar_today,
@@ -278,15 +299,6 @@ class HomePage extends StatelessWidget {
                         onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => const MultiColumnDemo()),
-                        ),
-                      ),
-                      _DemoCard(
-                        title: 'Custom Events Demo',
-                        description: 'Calendar with custom event styling and interactions',
-                        icon: Icons.event,
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const CustomEventsDemo()),
                         ),
                       ),
                       _DemoCard(
@@ -321,53 +333,6 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  void _showThemeSelector(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        final currentTheme = context.read<ThemeBloc>().state.theme;
-        final theme = Theme.of(context);
-
-        return Container(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Text(
-                  'Select Theme',
-                  style: theme.textTheme.titleLarge,
-                ),
-              ),
-              const Divider(),
-              ...AppTheme.values.map((appTheme) {
-                final isSelected = currentTheme == appTheme;
-                return ListTile(
-                  leading: Icon(
-                    appTheme.icon,
-                    color: isSelected ? theme.colorScheme.primary : theme.colorScheme.onSurface,
-                  ),
-                  title: Text(appTheme.name),
-                  trailing: isSelected
-                      ? Icon(
-                          Icons.check_circle,
-                          color: theme.colorScheme.primary,
-                        )
-                      : null,
-                  onTap: () {
-                    context.read<ThemeBloc>().add(ThemeChanged(appTheme));
-                    Navigator.pop(context);
-                  },
-                );
-              }).toList(),
-            ],
-          ),
-        );
-      },
     );
   }
 }

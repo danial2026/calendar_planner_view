@@ -30,24 +30,6 @@ import 'models/event_utils.dart';
 /// but can also be used independently. It supports both inline and modal
 /// display modes, with extensive customization options for appearance
 /// and behavior.
-///
-/// Example:
-/// ```dart
-/// FlexibleDatePicker(
-///   selectedDate: DateTime.now(),
-///   onDateChanged: (date) => setState(() => _selected = date),
-///   onCalendarFormatChanged: (format) => setState(() => _format = format),
-///   displayMode: DatePickerDisplayMode.inline,
-///   events: myEvents,
-///   dotColor: Colors.blue,
-///   cellShape: BoxShape.circle,
-///   locale: 'en_US',
-///   // Custom colors for different states
-///   todayContainerColor: Colors.blue.withOpacity(0.2),
-///   selectedContainerColor: Colors.blue,
-///   weekendContainerColor: Colors.grey.withOpacity(0.1),
-/// )
-/// ```
 class FlexibleDatePicker extends HookWidget {
   /// Creates a flexible date picker with extensive customization options.
   ///
@@ -73,6 +55,8 @@ class FlexibleDatePicker extends HookWidget {
     Key? key,
     required this.selectedDate,
     required this.onDateChanged,
+    this.startingDayOfWeek = StartingDayOfWeek.monday,
+    this.availableCalendarFormats,
     this.displayMode = DatePickerDisplayMode.inline,
     this.minDate,
     this.maxDate,
@@ -93,6 +77,7 @@ class FlexibleDatePicker extends HookWidget {
     this.eventDotShape = EventDotShape.circle,
     this.monthNames,
     this.weekdayNames,
+    this.monthLabelText = 'Month',
     this.weekLabelText = 'Week',
     this.todayLabel = 'Today',
     this.weekNumberBackgroundColor,
@@ -135,11 +120,23 @@ class FlexibleDatePicker extends HookWidget {
     this.rangeEndContainerColor,
   }) : super(key: key);
 
+  /// Starting day of week
+  final StartingDayOfWeek? startingDayOfWeek;
+
   /// Currently selected date
   final DateTime selectedDate;
 
   /// Callback when a new date is selected
   final ValueChanged<DateTime> onDateChanged;
+
+  /// Available calendar formats
+  final Map<CalendarFormat, String>? availableCalendarFormats;
+
+  /// Label for month view
+  final String? monthLabelText;
+
+  /// Label for week view
+  final String? weekLabelText;
 
   /// Callback when calendar format changes (month/week)
   /// This is called when the view changes either through the toggle button
@@ -202,9 +199,6 @@ class FlexibleDatePicker extends HookWidget {
 
   /// Custom weekday names
   final List<String>? weekdayNames;
-
-  /// Label for week view and week numbers
-  final String weekLabelText;
 
   /// Label for today's date
   final String todayLabel;
@@ -488,15 +482,22 @@ class FlexibleDatePicker extends HookWidget {
                 shadowOffset: calendarShadowOffset,
               ),
               child: TableCalendar(
+                startingDayOfWeek: startingDayOfWeek ?? StartingDayOfWeek.monday,
                 availableGestures: AvailableGestures.horizontalSwipe,
                 firstDay: minDate ?? DateTime(selectedDate.year - 1),
                 lastDay: maxDate ?? DateTime(selectedDate.year + 1),
                 focusedDay: selectedDate,
+                daysOfWeekHeight: 22.0,
                 selectedDayPredicate: (day) => CalendarDateUtils.isSameDay(selectedDate, day),
                 onDaySelected: (selectedDay, focusedDay) {
                   onDateChanged(DateTime(selectedDay.year, selectedDay.month, selectedDay.day));
                 },
                 calendarFormat: calendarFormat.value,
+                availableCalendarFormats: availableCalendarFormats ??
+                    {
+                      CalendarFormat.month: monthLabelText ?? 'Month',
+                      CalendarFormat.week: weekLabelText ?? 'Week',
+                    },
                 headerStyle: headerStyle ?? defaultHeaderStyle,
                 calendarStyle: dayStyle ?? defaultCalendarStyle,
                 calendarBuilders: CalendarBuilders(

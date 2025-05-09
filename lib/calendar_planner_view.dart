@@ -6,6 +6,7 @@ export 'src/extensions/calendar_style_extension.dart';
 export 'src/models/calendar_enums.dart';
 export 'src/models/event_model.dart';
 export 'src/models/event_utils.dart';
+export 'src/models/time_label_eums.dart';
 // Utils
 export 'src/utils/date_utils.dart';
 export 'src/utils/style_utils.dart';
@@ -15,7 +16,7 @@ export 'src/event_list.dart';
 export 'src/planner_view.dart';
 export 'src/time_labels.dart';
 
-/// A customizable calendar planner view with time-based events and Material 3 design.
+/// A customizable calendar planner view with advanced localization support.
 ///
 /// This package provides a flexible and customizable calendar planner view that
 /// allows users to display and manage time-based events in both daily and monthly views.
@@ -24,18 +25,13 @@ export 'src/time_labels.dart';
 /// * Month and week view support with smooth transitions
 /// * Customizable event items with support for overlapping events
 /// * Material 3 design support with theme awareness
-/// * Light and dark mode support
-/// * Flexible date picker (top or modal) with complete customization:
-///   - Week number styling and layout
-///   - Chevron icon customization
-///   - Calendar container styling
-///   - Date range constraints
-///   - Header styling
+/// * Theme support
+/// * Flexible date picker (top or modal) with complete customization
 /// * Sticky time labels with current hour highlighting
 /// * Multi-column layout support
 /// * Event indicators with customizable shapes and colors
 /// * Responsive design for all screen sizes
-/// * Localization support
+/// * Enhanced localization support for various languages (including Turkish and Japanese)
 /// * Current time indicator
 /// * Event overlap handling
 /// * Theme-aware styling
@@ -43,16 +39,14 @@ export 'src/time_labels.dart';
 ///
 /// ## Installation
 /// Add this to your package's `pubspec.yaml` file:
-/// ```yaml
+///
 /// dependencies:
 ///   calendar_planner_view: any
-/// ```
 ///
 /// ## Usage
-/// ```dart
 /// import 'package:calendar_planner_view/calendar_planner_view.dart';
 ///
-/// // Basic usage
+/// Basic usage:
 /// CalendarPlannerView(
 ///   events: myEvents,
 ///   onEventTap: (event) => print('Event tapped: $event'),
@@ -63,14 +57,14 @@ export 'src/time_labels.dart';
 ///   showCurrentTimeIndicator: true,
 /// )
 ///
-/// // Advanced usage with multi-column layout and loading overlay
+/// Advanced usage with multi-column layout and loading overlay:
 /// CalendarPlannerView(
 ///   events: myEvents,
 ///   onEventTap: (event) => print('Event tapped: $event'),
 ///   onDateChanged: (date) {
-///     // Update your app's state with the new date
+/// Update your app's state with the new date:
 ///     setState(() => selectedDate = date);
-///     // Optionally fetch events for the new date
+/// Optionally fetch events for the new date:
 ///     fetchEventsForDate(date);
 ///   },
 ///   datePickerPosition: DatePickerPosition.modal,
@@ -90,12 +84,15 @@ export 'src/time_labels.dart';
 ///   eventDotShape: EventDotShape.circle,
 ///   highlightCurrentHour: true,
 ///   modalBackgroundColor: Colors.white,
-///   modalTitleStyle: TextStyle(
-///     color: Colors.black,
-///     fontWeight: FontWeight.bold,
+/// Dropdown styling:
+///   dropdownBorder: OutlineInputBorder(
+///     borderRadius: BorderRadius.circular(8),
+///     borderSide: BorderSide(color: Colors.blue.withAlpha(50)),
 ///   ),
-///   customTitleCalendarWidget: Icon(Icons.calendar_month, color: Colors.blue),
-///   // Loading overlay configuration
+///   dropdownPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+/// Custom event builder for internationalized text:
+///   eventBuilder: (context, event, ...) => LocalizedEventCard(...),
+/// Loading overlay configuration:
 ///   isLoading: true,
 ///   loadingBuilder: (context) => Center(
 ///     child: CircularProgressIndicator(color: Colors.blue),
@@ -103,7 +100,6 @@ export 'src/time_labels.dart';
 ///   loadingOverlayColor: Colors.black12,
 ///   showContentWhileLoading: false,
 /// )
-/// ```
 ///
 /// ## Features
 /// * **Time-based Events**: Display events with specific start and end times
@@ -122,18 +118,19 @@ export 'src/time_labels.dart';
 /// * **Current Hour Highlighting**: Visual indicator for current time
 /// * **Current Time Indicator**: Shows current time line in the timeline
 /// * **Custom Time Labels**: Format time labels with custom builder
-/// * **Localization**: Support for different languages and date formats
+/// * **Localization**: Enhanced support for different languages and date formats
 /// * **Loading Overlay**: Customizable loading state with optional content visibility
+/// * **Dropdown Styling**: Custom border and padding options for dropdown menus
 ///
 /// ## Multi-column Layout
 /// The calendar planner supports organizing events into multiple columns:
-/// * Define columns with unique IDs and optional titles
+/// * Define columns with unique IDs and optional titles (supports localized text)
 /// * Assign events to specific columns using `columnId`
 /// * Automatic column width calculation
 /// * Visual column dividers
 /// * Minimum 2 columns, maximum 10 columns
 /// * Events without columnId use default column
-/// * Customizable column titles and styling
+/// * Customizable column titles and styling with enhanced dropdown options
 ///
 /// ## Date Picker
 /// The widget offers two date picker modes:
@@ -144,7 +141,7 @@ export 'src/time_labels.dart';
 ///   - "Today" button with icon
 ///   - Customizable styling
 ///   - Responsive layout
-///   - Complete customization options:
+///   - Complete customization options
 ///     - Week number styling and layout
 ///     - Chevron icon customization
 ///     - Calendar container styling
@@ -154,9 +151,8 @@ export 'src/time_labels.dart';
 /// ## Callbacks
 /// The widget provides several callbacks for handling user interactions:
 /// * `onEventTap`: Triggered when an event is tapped
-/// * `onDateChanged`: Triggered when the selected date changes, which can occur when:
-///   - User selects a new date from the calendar picker
-///   - User clicks the "Today" button
+/// * `onDateChanged`: Triggered when the selected date changes
+/// * `onColumnChanged`: Triggered when a different column is selected
 ///
 /// ## Dependencies
 /// * Flutter SDK

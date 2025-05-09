@@ -18,6 +18,23 @@ To run this example:
 
 For more information about the calendar_planner_view package, please refer to the main [README.md](../README.md) in the parent directory.
 
+## Localization Examples
+
+The example includes:
+- Basic calendar implementation
+- Multi-column layout demo
+- Theme customization
+- Turkish and Japanese localization demos
+- Custom event styling with different visual effects
+- Loading overlay demonstration
+- Responsive layouts for various screen sizes
+
+
+The example app includes demos with full internationalization support:
+
+- **Turkish Demo**: Features localized weekday/month names, column labels in Turkish, and custom dropdown styling
+- **Japanese Demo**: Shows Japanese calendar characters with appropriate styling and event formatting
+
 ## Resources
 
 - [Main Package Documentation](../README.md)

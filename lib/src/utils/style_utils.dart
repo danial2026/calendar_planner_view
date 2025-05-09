@@ -20,26 +20,24 @@ import 'package:table_calendar/table_calendar.dart';
 /// * Complete support for all TableCalendar styling options
 ///
 /// ## Usage
-/// ```dart
-/// // Get default header style with theme
+/// Get default header style with theme:
 /// final headerStyle = CalendarStyleUtils.getDefaultHeaderStyle(
 ///   theme,
 ///   monthTitleStyle: customTitleStyle,
 /// );
 ///
-/// // Get default calendar style with custom cell shape
+/// Get default calendar style with custom cell shape:
 /// final calendarStyle = CalendarStyleUtils.getDefaultCalendarStyle(
 ///   theme,
 ///   cellShape: BoxShape.circle,
 /// );
 ///
-/// // Get default calendar decoration with shadow
+/// Get default calendar decoration with shadow:
 /// final decoration = CalendarStyleUtils.getDefaultCalendarDecoration(
 ///   theme,
 ///   shadowColor: Colors.black26,
 ///   shadowBlurRadius: 8.0,
 /// );
-/// ```
 ///
 /// ## Styling Components
 /// * Calendar Header: Month/year display with navigation controls

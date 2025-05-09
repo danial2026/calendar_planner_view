@@ -20,7 +20,6 @@ import 'models/event_model.dart';
 /// - Theme-aware styling
 ///
 /// Example:
-/// ```dart
 /// EventList(
 ///   events: todaysEvents,
 ///   onEventTap: (event) => showEventDetails(event),
@@ -34,7 +33,6 @@ import 'models/event_model.dart';
 ///   showCurrentTimeIndicator: true,
 ///   eventBuilder: (context, event, ...) => CustomEventCard(...),
 /// )
-/// ```
 class EventList extends StatelessWidget {
   /// Creates a timeline view for displaying events in a scrollable grid layout.
   /// The view supports customizable time ranges, event styling, and interaction handling.
@@ -116,6 +114,7 @@ class EventList extends StatelessWidget {
   /// - totalOverlapping: Total events in overlap group
   ///
   /// Note: Events with the same start time are always shown side by side in a row.
+  /// This builder fully supports international text in all fields.
   final Widget Function(
     BuildContext context,
     CalendarEvent event, {
@@ -413,7 +412,7 @@ class EventList extends StatelessWidget {
   }
 }
 
-/// A default event card widget that displays event information.
+/// A default event card widget that displays event information
 class DefaultEventCard extends StatelessWidget {
   /// Creates a new default event card.
   const DefaultEventCard({
@@ -429,16 +428,16 @@ class DefaultEventCard extends StatelessWidget {
     this.descriptionTextStyle,
   });
 
-  /// The event to display.
+  /// The event to display
   final CalendarEvent event;
 
-  /// Whether this event overlaps with other events.
+  /// Whether this event overlaps with other events
   final bool isOverlapping;
 
-  /// The index of this event in overlapping events.
+  /// The index of this event in overlapping events
   final int overlapIndex;
 
-  /// The total number of overlapping events.
+  /// The total number of overlapping events
   final int totalOverlapping;
 
   /// Calculated event height

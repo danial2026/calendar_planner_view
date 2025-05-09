@@ -4,9 +4,9 @@ import 'package:intl/intl.dart';
 ///
 /// This class provides a comprehensive set of date-related utilities for handling
 /// calendar operations, including:
-/// * Localized month and weekday names
+/// * Localized month and weekday names in any language
 /// * Week number calculations
-/// * Date formatting with locale support
+/// * Date formatting
 /// * Date comparison and manipulation
 ///
 /// ## Features
@@ -16,20 +16,18 @@ import 'package:intl/intl.dart';
 /// * Time-based calculations for calendar display
 ///
 /// ## Usage
-/// ```dart
-/// // Get localized month name
+/// Get localized month name:
 /// final monthName = CalendarDateUtils.getMonthName(date);
 ///
-/// // Format date with custom format
+/// Format date with custom format
 /// final formattedDate = CalendarDateUtils.formatDate(
 ///   date,
 ///   format: 'MMM d, yyyy',
 ///   locale: 'en_US',
 /// );
 ///
-/// // Check if dates are the same day
+/// Check if dates are the same day:
 /// final isSameDay = CalendarDateUtils.isSameDay(date1, date2);
-/// ```
 ///
 /// ## Localization
 /// The class supports localization through:
@@ -44,7 +42,7 @@ import 'package:intl/intl.dart';
 /// * Midnight time conversion
 /// * Same day comparison
 class CalendarDateUtils {
-  /// Get localized month name
+  /// Get localized month name with support for custom language collections
   static String getMonthName(DateTime date, {List<String>? monthNames}) {
     final defaultMonths = [
       'January',
@@ -63,7 +61,11 @@ class CalendarDateUtils {
     return (monthNames ?? defaultMonths)[date.month - 1];
   }
 
-  /// Get localized weekday name
+  /// Get localized weekday name with support for custom language collections
+  ///
+  /// Examples of custom weekday collections:
+  /// - Turkish: ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz']
+  /// - Japanese: ['月', '火', '水', '木', '金', '土', '日']
   static String getWeekdayName(DateTime date, {List<String>? weekdayNames}) {
     final defaultWeekdays = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
     return (weekdayNames ?? defaultWeekdays)[date.weekday - 1];

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.0
+
+* Added enhanced Turkish localization example
+* Improved dropdown styling with custom borders and padding
+* Added subtle shadow effects for event cards
+* Enhanced support for international text and languages
+* Enhanced time label formatting with customizable hour and minute display
+* Updated documentation with comprehensive localization examples and usage guidelines
+
 ## 0.1.16
 
 * Added customizable loading overlay with optional content visibility

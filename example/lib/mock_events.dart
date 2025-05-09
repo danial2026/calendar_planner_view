@@ -8,8 +8,7 @@ import 'dart:math';
 /// Each event can have a unique ID, custom column assignment, and randomized properties.
 ///
 /// Example usage:
-/// ```dart
-/// // Generate 20 events with IDs in work and personal columns
+/// Generate 20 events with IDs in work and personal columns:
 /// final events = _generateMockEvents(
 ///   columns: ['work', 'personal'],
 ///   types: ['Project Planning', 'Client Call', 'Team Building'],
@@ -17,7 +16,6 @@ import 'dart:math';
 ///   includeIds: true,
 ///   baseDate: DateTime.now(),
 /// );
-/// ```
 ///
 /// Parameters:
 /// * [columns] - Optional list of column IDs for multi-column layout
@@ -82,7 +80,7 @@ List<CalendarEvent> _generateMockEvents({
   for (int i = 0; i < count; i++) {
     // Generate random event properties
     int day = random.nextInt(30) + 1;
-    int hour = 8 + random.nextInt(11); // 8-19
+    int hour = 8 + random.nextInt(9); // 8-17
     int minute = [30, 45, 60, 90][random.nextInt(4)];
     int duration = [30, 45, 60, 90][random.nextInt(4)];
 

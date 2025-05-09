@@ -11,14 +11,14 @@ import '../mock_events.dart';
 /// - Multi-column layout
 /// - Custom time label formatting
 /// - Theme-aware styling
-class CustomEventsDemo extends StatefulWidget {
-  const CustomEventsDemo({super.key});
+class CustomJapaneseEventsDemo extends StatefulWidget {
+  const CustomJapaneseEventsDemo({super.key});
 
   @override
-  State<CustomEventsDemo> createState() => _CustomEventsDemoState();
+  State<CustomJapaneseEventsDemo> createState() => _CustomJapaneseEventsDemoState();
 }
 
-class _CustomEventsDemoState extends State<CustomEventsDemo> {
+class _CustomJapaneseEventsDemoState extends State<CustomJapaneseEventsDemo> {
   /// Shows event details in a dialog when an event is tapped
   void _onEventTap(BuildContext context, CalendarEvent event) {
     final theme = Theme.of(context);
@@ -168,11 +168,17 @@ class _CustomEventsDemoState extends State<CustomEventsDemo> {
   /// Loading state for the calendar
   bool _loading = true;
 
+  /// Japanese weekday names (月, 火, 水, 木, 金, 土, 日)
+  static const List<String> japaneseWeekdays = ['月', '火', '水', '木', '金', '土', '日'];
+
+  /// Japanese month names
+  static const List<String> japaneseMonths = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
+
   @override
   void initState() {
     super.initState();
     // Simulate loading delay
-    Future.delayed(const Duration(seconds: 4), () {
+    Future.delayed(const Duration(seconds: 2), () {
       setState(() {
         _loading = false;
       });
@@ -196,22 +202,43 @@ class _CustomEventsDemoState extends State<CustomEventsDemo> {
         endHour: 20,
         showDayTitle: false,
         enableViewToggle: true,
-        calendarTitle: 'Bookings',
+        calendarTitle: 'カレンダー',
         initialView: CalendarViewType.week,
+        modalTitle: "日付を選択",
+        dropdownLabel: "選択",
+        dropdownAllLabel: "すべて",
+        monthLabelText: '月',
+        weekLabelText: '週',
+        todayLabel: '日',
+        tomorrowLabel: '明日',
+        yesterdayLabel: '昨日',
+        weekdayNames: japaneseWeekdays,
+        monthNames: japaneseMonths,
         dotColor: Colors.pink[300],
         dotSize: 5.0,
+        showColumnHeadersInDropdownAllOption: true,
+        toggleColorBackground: Colors.red[300],
         showCurrentTimeIndicator: true,
-        customToggleColor: Colors.black87,
+        toggleColor: Colors.black87,
         calendarBackgroundColor: Colors.transparent,
-        todayContainerColor: Colors.pink[300]?.withOpacity(0.2),
-        selectedContainerColor: Colors.red[400]?.withOpacity(0.7),
+        todayContainerColor: Colors.red[300]?.withAlpha(15),
+        selectedContainerColor: Colors.red[400]?.withAlpha(70),
+        modalHeaderGradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.redAccent.withAlpha(75),
+            Colors.white,
+          ],
+        ),
         timeLabelWidth: 55,
+        timeLabelType: TimeLabelType.hourAndHalf,
         modalTitleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
               color: Colors.black87,
               fontWeight: FontWeight.bold,
             ),
         modalTodayButtonTextStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: Colors.pink[300],
+              color: Colors.black87,
               fontWeight: FontWeight.w600,
             ),
         calendarTitleStyle: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -222,7 +249,7 @@ class _CustomEventsDemoState extends State<CustomEventsDemo> {
               color: Colors.black87,
               fontWeight: FontWeight.bold,
             ),
-        customTimeLabelBuilder: (DateTime time) {
+        timeLabelBuilder: (DateTime time) {
           return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
         },
         dayNumberStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -258,6 +285,7 @@ class _CustomEventsDemoState extends State<CustomEventsDemo> {
           (id: 'personal', title: 'Personal'),
           (id: 'meetings', title: 'Meetings'),
         ],
+        columnLabelType: ColumnLabelType.dropdown,
         loadingBuilder: (context) => Center(child: CircularProgressIndicator(color: Colors.pink[300])),
         scrollController: scrollController,
         isLoading: _loading,

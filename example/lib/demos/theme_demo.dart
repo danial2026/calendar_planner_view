@@ -143,6 +143,13 @@ class ThemeDemo extends StatelessWidget {
             onPressed: () => _showThemeSelector(context),
           ),
         ],
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            context.read<ThemeBloc>().add(ThemeChanged(AppTheme.light));
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: CalendarPlannerView(
         events: mockEvents,

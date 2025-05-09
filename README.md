@@ -23,11 +23,13 @@ A customizable daily calendar planner view with time-based events and Material 3
 * Material 3 design support
 * Customizable theme support
 * Customizable date picker
+* Dropdown styling customization
 * Sticky time labels
 * Event dot indicators
-* Responsive layout
+* Multi-column layout support
+* Responsive design
 * Theme-aware styling
-* Localization support
+* Event loading overlay
 
 ## Installation
 
@@ -48,7 +50,7 @@ CalendarPlannerView(
   events: myEvents,
   onEventTap: (event) => print('Event tapped: $event'),
   datePickerPosition: DatePickerPosition.top,
-  showStickyTimeLabels: true,
+  showCurrentTimeIndicator: true,
 )
 
 // Advanced usage with customization
@@ -56,7 +58,7 @@ CalendarPlannerView(
   events: myEvents,
   onEventTap: (event) => print('Event tapped: $event'),
   datePickerPosition: DatePickerPosition.modal,
-  showStickyTimeLabels: true,
+  showCurrentTimeIndicator: true,
   startHour: 8,
   endHour: 20,
   showDayTitle: true,

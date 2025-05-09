@@ -2,7 +2,7 @@ name: calendar_planner_view_example
 description: Example app for the calendar_planner_view package.
 publish_to: 'none'
 
-version: 0.1.16+16
+version: 0.2.0+20
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

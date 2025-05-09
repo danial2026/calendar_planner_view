@@ -27,7 +27,6 @@ class CalendarEvent {
   /// * [columnId] - Column assignment for multi-column layout
   ///
   /// Example:
-  /// ```dart
   /// final event = CalendarEvent(
   ///   id: 'meeting_123', // Optional unique identifier
   ///   title: 'Team Meeting',
@@ -37,7 +36,6 @@ class CalendarEvent {
   ///   description: 'Weekly team sync meeting',
   ///   columnId: 'work', // Optional column identifier
   /// );
-  /// ```
   CalendarEvent({
     required this.title,
     required this.startTime,
@@ -78,8 +76,8 @@ class CalendarEvent {
   /// When using multi-column layout:
   /// * Must match one of the column IDs defined in the layout
   /// * If not specified or invalid, event will be displayed in the default column
-  /// * Used to organize events into specific columns (e.g., 'work', 'personal')
-  /// * Helps in creating separate timelines for different event categories
+  /// * Used to organize events into specific columns
+  /// * Helpful for creating separate timelines for different event categories
   final String? columnId;
 
   /// Creates a new event with updated properties.
@@ -88,12 +86,10 @@ class CalendarEvent {
   /// updated while keeping all other properties the same as the original event.
   ///
   /// Example:
-  /// ```dart
   /// final updatedEvent = event.copyWith(
   ///   title: 'Updated Meeting Title',
   ///   color: Colors.red,
   /// );
-  /// ```
   CalendarEvent copyWith({
     String? title,
     DateTime? startTime,

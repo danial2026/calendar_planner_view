@@ -15,11 +15,10 @@ import 'calendar_enums.dart';
 /// consistent event handling across the calendar components.
 ///
 /// Example:
-/// ```dart
-/// // Count events for a specific day
+/// Count events for a specific day:
 /// final eventCount = EventUtils.countEventsForDay(selectedDate, events);
 ///
-/// // Build event dots widget
+/// uild event dots widget:
 /// final dots = EventUtils.buildEventDots(
 ///   count: eventCount,
 ///   color: Colors.blue,
@@ -27,9 +26,8 @@ import 'calendar_enums.dart';
 ///   shape: EventDotShape.circle,
 /// );
 ///
-/// // Filter events for a date
+/// Filter events for a date
 /// final dayEvents = EventUtils.filterEventsForDate(selectedDate, events);
-/// ```
 class EventUtils {
   /// Count events for a given day.
   ///
@@ -149,5 +147,13 @@ class EventUtils {
       'height': height,
       'width': width,
     };
+  }
+
+  /// Filter events for a specific column.
+  ///
+  /// Returns a list of events that belong to the specified column.
+  /// The events are filtered based on the column's id.
+  static List<CalendarEvent> filterEventsForColumn(String columnId, List<CalendarEvent> events) {
+    return events.where((event) => event.columnId == columnId).toList();
   }
 }
