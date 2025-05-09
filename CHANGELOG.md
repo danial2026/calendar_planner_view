@@ -56,7 +56,7 @@
   * Flexible content builder for each column
 * Enhanced event list layout with column headers
 * Improved event time display
-* Events with the same start time are now always shown side by side in a row in the timeline view, improving clarity for simultaneous events. 
+* Events with the same start time are now always shown side by side in a row in the timeline view, improving clarity for simultaneous events
 
 ## 0.1.7
 
@@ -149,4 +149,4 @@
   * Theme-aware styling system
   * Customizable styling for all components
   * Comprehensive documentation
-  * Example app with theme switching 
+  * Example app with theme switching
