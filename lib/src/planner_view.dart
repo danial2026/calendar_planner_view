@@ -145,6 +145,7 @@ class CalendarPlannerView extends HookWidget {
     this.weekNumberStyle,
     this.titleCalendarWidget,
     this.enableViewToggle = false,
+    this.customToggleButtons,
     this.initialView = CalendarViewType.month,
     this.datePickerShape = BoxShape.circle,
     this.datePickerBorderRadius,
@@ -399,6 +400,10 @@ class CalendarPlannerView extends HookWidget {
   /// Whether to show the view toggle button
   /// Enables switching between month and week views
   final bool enableViewToggle;
+
+  /// Custom widget for the view toggle buttons
+  /// Allows complete customization of the view toggle buttons
+  final Widget? customToggleButtons;
 
   /// Initial calendar view type
   /// Sets the default view when the widget is first displayed
@@ -945,26 +950,27 @@ class CalendarPlannerView extends HookWidget {
               titleCalendarWidget ?? const SizedBox.shrink(),
               const Spacer(),
               if (enableViewToggle)
-                ToggleButtons(
-                  isSelected: [viewType.value == CalendarViewType.month, viewType.value == CalendarViewType.week],
-                  onPressed: (index) {
-                    viewType.value = index == 0 ? CalendarViewType.month : CalendarViewType.week;
-                  },
-                  borderRadius: BorderRadius.circular(8),
-                  color: toggleColor ?? theme.colorScheme.onSurface.withAlpha(51),
-                  selectedColor: toggleColor ?? theme.colorScheme.onSurface,
-                  fillColor: toggleColorBackground ?? theme.colorScheme.surfaceContainerHighest,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Text(monthLabelText),
+                customToggleButtons ??
+                    ToggleButtons(
+                      isSelected: [viewType.value == CalendarViewType.month, viewType.value == CalendarViewType.week],
+                      onPressed: (index) {
+                        viewType.value = index == 0 ? CalendarViewType.month : CalendarViewType.week;
+                      },
+                      borderRadius: BorderRadius.circular(8),
+                      color: toggleColor ?? theme.colorScheme.onSurface.withAlpha(51),
+                      selectedColor: toggleColor ?? theme.colorScheme.onSurface,
+                      fillColor: toggleColorBackground ?? theme.colorScheme.surfaceContainerHighest,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: Text(monthLabelText),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: Text(weekLabelText),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Text(weekLabelText),
-                    ),
-                  ],
-                ),
             ],
           ),
         ),

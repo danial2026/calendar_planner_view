@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1
+
+* Added customToggleButtons
+
 ## 0.2.0
 
 * Added enhanced Turkish localization example
