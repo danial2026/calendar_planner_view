@@ -145,7 +145,7 @@ class CalendarPlannerView extends HookWidget {
     this.weekNumberStyle,
     this.titleCalendarWidget,
     this.enableViewToggle = false,
-    this.customToggleButtons,
+    this.toggleButtonsWidget,
     this.initialView = CalendarViewType.month,
     this.datePickerShape = BoxShape.circle,
     this.datePickerBorderRadius,
@@ -403,7 +403,7 @@ class CalendarPlannerView extends HookWidget {
 
   /// Custom widget for the view toggle buttons
   /// Allows complete customization of the view toggle buttons
-  final Widget? customToggleButtons;
+  final Widget? toggleButtonsWidget;
 
   /// Initial calendar view type
   /// Sets the default view when the widget is first displayed
@@ -950,7 +950,7 @@ class CalendarPlannerView extends HookWidget {
               titleCalendarWidget ?? const SizedBox.shrink(),
               const Spacer(),
               if (enableViewToggle)
-                customToggleButtons ??
+                toggleButtonsWidget ??
                     ToggleButtons(
                       isSelected: [viewType.value == CalendarViewType.month, viewType.value == CalendarViewType.week],
                       onPressed: (index) {
