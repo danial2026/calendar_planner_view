@@ -158,6 +158,7 @@ class CalendarPlannerView extends HookWidget {
     this.tomorrowLabel = 'Tomorrow',
     this.yesterdayLabel = 'Yesterday',
     this.dateFormat = 'MMMM d, yyyy',
+    this.calendarDatePickerButtonsWidget,
     this.modalTitle = 'Select Date',
     this.modalTitleStyle,
     this.modalBackgroundColor,
@@ -452,6 +453,10 @@ class CalendarPlannerView extends HookWidget {
   /// Format for displaying dates
   /// Controls how dates are formatted in the day title
   final String dateFormat;
+
+  /// Custom widget for the calendar date picker buttons
+  /// Allows complete customization of the calendar date picker buttons
+  final Widget? calendarDatePickerButtonsWidget;
 
   /// Title shown in the modal header
   /// Heading for the date picker modal dialog
@@ -755,7 +760,7 @@ class CalendarPlannerView extends HookWidget {
               ),
               const SizedBox(width: 8),
               IconButton(
-                icon: Icon(Icons.calendar_today, color: modalIconColor ?? theme.colorScheme.onSurface),
+                icon: calendarDatePickerButtonsWidget ?? Icon(Icons.calendar_today, color: modalIconColor ?? theme.colorScheme.onSurface),
                 onPressed: () {
                   showDialog(
                     context: context,
